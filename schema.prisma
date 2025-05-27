@@ -15,21 +15,54 @@ datasource db {
 
 
 // Это уже описание самой БД. Какие таблицы есть с какими атрибутами итд
-model Post {
-  id        String     @default(cuid()) @id
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User?   @relation(fields: [authorId], references: [id])
-  authorId  String?
+
+model Extradition{
+  id                      String       @default(cuid())   @id
+  extraditionDate         String
+  refundDate              String?
+
+  books                   Book[]   
+
+  readerId                String?
+  reader                  Reader?      @relation(fields:[readerId], references:[id])
+
+  debt                    Debt?
 }
 
-model User {
-  id            String       @default(cuid()) @id
-  name          String?
-  email         String?   @unique
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
-  posts         Post[]
-  @@map(name: "users")
+model Book{
+  id                      String       @default(cuid())   @id
+  name                    String
+  trackingNumber          Int
+  publicationCount        Int?
+  publisher               String?
+  publishedYear           Int?
+  pagesCount              Int?
+  genere                  String?
+
+  extraditionId           String?
+  extradition             Extradition? @relation(fields:[extraditionId], references:[id])
+}
+
+
+model Debt{
+  id                      String        @default(cuid())   @id
+  date                    String
+
+  extradition             Extradition? @relation(fields:[extraditionId], references:[id])       
+  extraditionId           String?      @unique
+}
+
+
+model Reader{
+  id                     String       @default(cuid())   @id
+  lastName               String
+  firstName              String
+  addressStreet          String?
+  adressCity             String?
+  phoneNumber            String?
+  registratedDate        String?
+  status                 String
+  category               String?
+
+  extraditions           Extradition[] 
 }
