@@ -554,310 +554,6 @@ const readers = [
   },
 ];
 
-// Books data - 30 records
-const books = [
-  {
-    id: 'clr1book001',
-    name: 'Война и мир',
-    trackingNumber: 10001,
-    publicationCount: 5000,
-    publisher: 'Эксмо',
-    publishedYear: 2015,
-    pagesCount: 1225,
-    genere: 'Классическая литература',
-  },
-  {
-    id: 'clr1book002',
-    name: 'Преступление и наказание',
-    trackingNumber: 10002,
-    publicationCount: 3000,
-    publisher: 'АСТ',
-    publishedYear: 2016,
-    pagesCount: 672,
-    genere: 'Классическая литература',
-  },
-  {
-    id: 'clr1book003',
-    name: 'Мастер и Маргарита',
-    trackingNumber: 10003,
-    publicationCount: 4000,
-    publisher: 'Азбука',
-    publishedYear: 2017,
-    pagesCount: 480,
-    genere: 'Классическая литература',
-  },
-  {
-    id: 'clr1book004',
-    name: 'Гарри Поттер и философский камень',
-    trackingNumber: 10004,
-    publicationCount: 10000,
-    publisher: 'Росмэн',
-    publishedYear: 2018,
-    pagesCount: 399,
-    genere: 'Фэнтези',
-  },
-  {
-    id: 'clr1book005',
-    name: '1984',
-    trackingNumber: 10005,
-    publicationCount: 2500,
-    publisher: 'АСТ',
-    publishedYear: 2019,
-    pagesCount: 320,
-    genere: 'Антиутопия',
-  },
-  {
-    id: 'clr1book006',
-    name: 'Три товарища',
-    trackingNumber: 10006,
-    publicationCount: 3500,
-    publisher: 'Эксмо',
-    publishedYear: 2015,
-    pagesCount: 480,
-    genere: 'Классическая литература',
-  },
-  {
-    id: 'clr1book007',
-    name: 'Маленький принц',
-    trackingNumber: 10007,
-    publicationCount: 5000,
-    publisher: 'Азбука',
-    publishedYear: 2016,
-    pagesCount: 128,
-    genere: 'Сказка',
-  },
-  {
-    id: 'clr1book008',
-    name: 'Властелин колец',
-    trackingNumber: 10008,
-    publicationCount: 4000,
-    publisher: 'АСТ',
-    publishedYear: 2017,
-    pagesCount: 1120,
-    genere: 'Фэнтези',
-  },
-  {
-    id: 'clr1book009',
-    name: 'Анна Каренина',
-    trackingNumber: 10009,
-    publicationCount: 3000,
-    publisher: 'Эксмо',
-    publishedYear: 2018,
-    pagesCount: 864,
-    genere: 'Классическая литература',
-  },
-  {
-    id: 'clr1book010',
-    name: 'Гордость и предубеждение',
-    trackingNumber: 10010,
-    publicationCount: 2500,
-    publisher: 'Азбука',
-    publishedYear: 2019,
-    pagesCount: 416,
-    genere: 'Классическая литература',
-  },
-  {
-    id: 'clr1book011',
-    name: 'Сто лет одиночества',
-    trackingNumber: 10011,
-    publicationCount: 3000,
-    publisher: 'АСТ',
-    publishedYear: 2015,
-    pagesCount: 416,
-    genere: 'Магический реализм',
-  },
-  {
-    id: 'clr1book012',
-    name: 'Идиот',
-    trackingNumber: 10012,
-    publicationCount: 2000,
-    publisher: 'Эксмо',
-    publishedYear: 2016,
-    pagesCount: 640,
-    genere: 'Классическая литература',
-  },
-  {
-    id: 'clr1book013',
-    name: 'Шерлок Холмс',
-    trackingNumber: 10013,
-    publicationCount: 4500,
-    publisher: 'Азбука',
-    publishedYear: 2017,
-    pagesCount: 896,
-    genere: 'Детектив',
-  },
-  {
-    id: 'clr1book014',
-    name: 'Великий Гэтсби',
-    trackingNumber: 10014,
-    publicationCount: 2000,
-    publisher: 'АСТ',
-    publishedYear: 2018,
-    pagesCount: 256,
-    genere: 'Классическая литература',
-  },
-  {
-    id: 'clr1book015',
-    name: 'Тихий Дон',
-    trackingNumber: 10015,
-    publicationCount: 1500,
-    publisher: 'Эксмо',
-    publishedYear: 2019,
-    pagesCount: 1280,
-    genere: 'Классическая литература',
-  },
-  {
-    id: 'clr1book016',
-    name: 'Алхимик',
-    trackingNumber: 10016,
-    publicationCount: 3500,
-    publisher: 'АСТ',
-    publishedYear: 2015,
-    pagesCount: 224,
-    genere: 'Философская проза',
-  },
-  {
-    id: 'clr1book017',
-    name: 'Метро 2033',
-    trackingNumber: 10017,
-    publicationCount: 5000,
-    publisher: 'Эксмо',
-    publishedYear: 2016,
-    pagesCount: 384,
-    genere: 'Постапокалиптика',
-  },
-  {
-    id: 'clr1book018',
-    name: 'Евгений Онегин',
-    trackingNumber: 10018,
-    publicationCount: 2000,
-    publisher: 'Азбука',
-    publishedYear: 2017,
-    pagesCount: 224,
-    genere: 'Классическая литература',
-  },
-  {
-    id: 'clr1book019',
-    name: 'Мертвые души',
-    trackingNumber: 10019,
-    publicationCount: 1800,
-    publisher: 'АСТ',
-    publishedYear: 2018,
-    pagesCount: 352,
-    genere: 'Классическая литература',
-  },
-  {
-    id: 'clr1book020',
-    name: 'Двенадцать стульев',
-    trackingNumber: 10020,
-    publicationCount: 3000,
-    publisher: 'Эксмо',
-    publishedYear: 2019,
-    pagesCount: 416,
-    genere: 'Сатира',
-  },
-  {
-    id: 'clr1book021',
-    name: 'Граф Монте-Кристо',
-    trackingNumber: 10021,
-    publicationCount: 2500,
-    publisher: 'Азбука',
-    publishedYear: 2015,
-    pagesCount: 1264,
-    genere: 'Приключения',
-  },
-  {
-    id: 'clr1book022',
-    name: 'Три мушкетера',
-    trackingNumber: 10022,
-    publicationCount: 3000,
-    publisher: 'АСТ',
-    publishedYear: 2016,
-    pagesCount: 672,
-    genere: 'Приключения',
-  },
-  {
-    id: 'clr1book023',
-    name: 'Отцы и дети',
-    trackingNumber: 10023,
-    publicationCount: 2000,
-    publisher: 'Эксмо',
-    publishedYear: 2017,
-    pagesCount: 288,
-    genere: 'Классическая литература',
-  },
-  {
-    id: 'clr1book024',
-    name: 'Герой нашего времени',
-    trackingNumber: 10024,
-    publicationCount: 1800,
-    publisher: 'Азбука',
-    publishedYear: 2018,
-    pagesCount: 224,
-    genere: 'Классическая литература',
-  },
-  {
-    id: 'clr1book025',
-    name: 'Собачье сердце',
-    trackingNumber: 10025,
-    publicationCount: 2500,
-    publisher: 'АСТ',
-    publishedYear: 2019,
-    pagesCount: 192,
-    genere: 'Сатира',
-  },
-  {
-    id: 'clr1book026',
-    name: 'Капитанская дочка',
-    trackingNumber: 10026,
-    publicationCount: 1500,
-    publisher: 'Эксмо',
-    publishedYear: 2015,
-    pagesCount: 256,
-    genere: 'Классическая литература',
-  },
-  {
-    id: 'clr1book027',
-    name: 'Вишневый сад',
-    trackingNumber: 10027,
-    publicationCount: 1200,
-    publisher: 'Азбука',
-    publishedYear: 2016,
-    pagesCount: 192,
-    genere: 'Драма',
-  },
-  {
-    id: 'clr1book028',
-    name: 'Ревизор',
-    trackingNumber: 10028,
-    publicationCount: 1300,
-    publisher: 'АСТ',
-    publishedYear: 2017,
-    pagesCount: 160,
-    genere: 'Комедия',
-  },
-  {
-    id: 'clr1book029',
-    name: 'Обломов',
-    trackingNumber: 10029,
-    publicationCount: 1400,
-    publisher: 'Эксмо',
-    publishedYear: 2018,
-    pagesCount: 640,
-    genere: 'Классическая литература',
-  },
-  {
-    id: 'clr1book030',
-    name: 'Бесы',
-    trackingNumber: 10030,
-    publicationCount: 1600,
-    publisher: 'Азбука',
-    publishedYear: 2019,
-    pagesCount: 768,
-    genere: 'Классическая литература',
-  },
-];
-
 // Extradition data - 50 records
 const extraditions = [
   {
@@ -1416,20 +1112,312 @@ const debts = [
   },
 ];
 
-// Связываем книги с выдачами - гарантируем, что у каждой выдачи есть хотя бы одна книга
-const booksExtraditions = [];
+// Создаем книги с привязкой к выдачам
+// Базовые данные книг
+const bookBaseData = [
+  {
+    name: 'Война и мир',
+    trackingNumber: 10001,
+    publicationCount: 5000,
+    publisher: 'Эксмо',
+    publishedYear: 2015,
+    pagesCount: 1225,
+    genere: 'Классическая литература',
+  },
+  {
+    name: 'Преступление и наказание',
+    trackingNumber: 10002,
+    publicationCount: 3000,
+    publisher: 'АСТ',
+    publishedYear: 2016,
+    pagesCount: 672,
+    genere: 'Классическая литература',
+  },
+  {
+    name: 'Мастер и Маргарита',
+    trackingNumber: 10003,
+    publicationCount: 4000,
+    publisher: 'Азбука',
+    publishedYear: 2017,
+    pagesCount: 480,
+    genere: 'Классическая литература',
+  },
+  {
+    name: 'Гарри Поттер и философский камень',
+    trackingNumber: 10004,
+    publicationCount: 10000,
+    publisher: 'Росмэн',
+    publishedYear: 2018,
+    pagesCount: 399,
+    genere: 'Фэнтези',
+  },
+  {
+    name: '1984',
+    trackingNumber: 10005,
+    publicationCount: 2500,
+    publisher: 'АСТ',
+    publishedYear: 2019,
+    pagesCount: 320,
+    genere: 'Антиутопия',
+  },
+  {
+    name: 'Три товарища',
+    trackingNumber: 10006,
+    publicationCount: 3500,
+    publisher: 'Эксмо',
+    publishedYear: 2015,
+    pagesCount: 480,
+    genere: 'Классическая литература',
+  },
+  {
+    name: 'Маленький принц',
+    trackingNumber: 10007,
+    publicationCount: 5000,
+    publisher: 'Азбука',
+    publishedYear: 2016,
+    pagesCount: 128,
+    genere: 'Сказка',
+  },
+  {
+    name: 'Властелин колец',
+    trackingNumber: 10008,
+    publicationCount: 4000,
+    publisher: 'АСТ',
+    publishedYear: 2017,
+    pagesCount: 1120,
+    genere: 'Фэнтези',
+  },
+  {
+    name: 'Анна Каренина',
+    trackingNumber: 10009,
+    publicationCount: 3000,
+    publisher: 'Эксмо',
+    publishedYear: 2018,
+    pagesCount: 864,
+    genere: 'Классическая литература',
+  },
+  {
+    name: 'Гордость и предубеждение',
+    trackingNumber: 10010,
+    publicationCount: 2500,
+    publisher: 'Азбука',
+    publishedYear: 2019,
+    pagesCount: 416,
+    genere: 'Классическая литература',
+  },
+  {
+    name: 'Сто лет одиночества',
+    trackingNumber: 10011,
+    publicationCount: 3000,
+    publisher: 'АСТ',
+    publishedYear: 2015,
+    pagesCount: 416,
+    genere: 'Магический реализм',
+  },
+  {
+    name: 'Идиот',
+    trackingNumber: 10012,
+    publicationCount: 2000,
+    publisher: 'Эксмо',
+    publishedYear: 2016,
+    pagesCount: 640,
+    genere: 'Классическая литература',
+  },
+  {
+    name: 'Шерлок Холмс',
+    trackingNumber: 10013,
+    publicationCount: 4500,
+    publisher: 'Азбука',
+    publishedYear: 2017,
+    pagesCount: 896,
+    genere: 'Детектив',
+  },
+  {
+    name: 'Великий Гэтсби',
+    trackingNumber: 10014,
+    publicationCount: 2000,
+    publisher: 'АСТ',
+    publishedYear: 2018,
+    pagesCount: 256,
+    genere: 'Классическая литература',
+  },
+  {
+    name: 'Тихий Дон',
+    trackingNumber: 10015,
+    publicationCount: 1500,
+    publisher: 'Эксмо',
+    publishedYear: 2019,
+    pagesCount: 1280,
+    genere: 'Классическая литература',
+  },
+  {
+    name: 'Алхимик',
+    trackingNumber: 10016,
+    publicationCount: 3500,
+    publisher: 'АСТ',
+    publishedYear: 2015,
+    pagesCount: 224,
+    genere: 'Философская проза',
+  },
+  {
+    name: 'Метро 2033',
+    trackingNumber: 10017,
+    publicationCount: 5000,
+    publisher: 'Эксмо',
+    publishedYear: 2016,
+    pagesCount: 384,
+    genere: 'Постапокалиптика',
+  },
+  {
+    name: 'Евгений Онегин',
+    trackingNumber: 10018,
+    publicationCount: 2000,
+    publisher: 'Азбука',
+    publishedYear: 2017,
+    pagesCount: 224,
+    genere: 'Классическая литература',
+  },
+  {
+    name: 'Мертвые души',
+    trackingNumber: 10019,
+    publicationCount: 1800,
+    publisher: 'АСТ',
+    publishedYear: 2018,
+    pagesCount: 352,
+    genere: 'Классическая литература',
+  },
+  {
+    name: 'Двенадцать стульев',
+    trackingNumber: 10020,
+    publicationCount: 3000,
+    publisher: 'Эксмо',
+    publishedYear: 2019,
+    pagesCount: 416,
+    genere: 'Сатира',
+  },
+  {
+    name: 'Граф Монте-Кристо',
+    trackingNumber: 10021,
+    publicationCount: 2500,
+    publisher: 'Азбука',
+    publishedYear: 2015,
+    pagesCount: 1264,
+    genere: 'Приключения',
+  },
+  {
+    name: 'Три мушкетера',
+    trackingNumber: 10022,
+    publicationCount: 3000,
+    publisher: 'АСТ',
+    publishedYear: 2016,
+    pagesCount: 672,
+    genere: 'Приключения',
+  },
+  {
+    name: 'Отцы и дети',
+    trackingNumber: 10023,
+    publicationCount: 2000,
+    publisher: 'Эксмо',
+    publishedYear: 2017,
+    pagesCount: 288,
+    genere: 'Классическая литература',
+  },
+  {
+    name: 'Герой нашего времени',
+    trackingNumber: 10024,
+    publicationCount: 1800,
+    publisher: 'Азбука',
+    publishedYear: 2018,
+    pagesCount: 224,
+    genere: 'Классическая литература',
+  },
+  {
+    name: 'Собачье сердце',
+    trackingNumber: 10025,
+    publicationCount: 2500,
+    publisher: 'АСТ',
+    publishedYear: 2019,
+    pagesCount: 192,
+    genere: 'Сатира',
+  },
+  {
+    name: 'Капитанская дочка',
+    trackingNumber: 10026,
+    publicationCount: 1500,
+    publisher: 'Эксмо',
+    publishedYear: 2015,
+    pagesCount: 256,
+    genere: 'Классическая литература',
+  },
+  {
+    name: 'Вишневый сад',
+    trackingNumber: 10027,
+    publicationCount: 1200,
+    publisher: 'Азбука',
+    publishedYear: 2016,
+    pagesCount: 192,
+    genere: 'Драма',
+  },
+  {
+    name: 'Ревизор',
+    trackingNumber: 10028,
+    publicationCount: 1300,
+    publisher: 'АСТ',
+    publishedYear: 2017,
+    pagesCount: 160,
+    genere: 'Комедия',
+  },
+  {
+    name: 'Обломов',
+    trackingNumber: 10029,
+    publicationCount: 1400,
+    publisher: 'Эксмо',
+    publishedYear: 2018,
+    pagesCount: 640,
+    genere: 'Классическая литература',
+  },
+  {
+    name: 'Бесы',
+    trackingNumber: 10030,
+    publicationCount: 1600,
+    publisher: 'Азбука',
+    publishedYear: 2019,
+    pagesCount: 768,
+    genere: 'Классическая литература',
+  },
+];
+
+// Создаем книги с привязкой к выдачам
+const books = [];
+// Распределяем 30 книг по 50 выдачам
 for (let i = 0; i < 50; i++) {
   const extraditionId = `clr1extradition${(i + 1).toString().padStart(3, '0')}`;
-  // Назначаем книгу для каждой выдачи. Используем книги по кругу.
-  const bookId = `clr1book${((i % 30) + 1).toString().padStart(3, '0')}`;
-  booksExtraditions.push({ bookId, extraditionId });
-}
-// Добавляем еще несколько связей, чтобы у некоторых выдач было больше одной книги
-for (let i = 0; i < 20; i++) {
-  const extraditionId = `clr1extradition${(i + 1).toString().padStart(3, '0')}`;
-  // Добавляем вторую книгу (следующую по кругу)
-  const bookId = `clr1book${(((i + 1) % 30) + 1).toString().padStart(3, '0')}`;
-  booksExtraditions.push({ bookId, extraditionId });
+  const bookIndex = i % 30; // Используем книги по кругу
+
+  // Копируем базовые данные книги
+  const bookData = { ...bookBaseData[bookIndex] };
+
+  // Добавляем связь с выдачей
+  bookData.extraditionId = extraditionId;
+
+  // Добавляем книгу в массив
+  books.push(bookData);
+
+  // Для первых 20 выдач добавляем еще по одной книге
+  if (i < 20) {
+    const secondBookIndex = (i + 1) % 30; // Следующая книга по кругу
+    const secondBookData = { ...bookBaseData[secondBookIndex] };
+
+    // Изменяем ID книги, чтобы избежать дублирования
+    secondBookData.id = `clr1book${(secondBookIndex + 1).toString().padStart(3, '0')}_extra`;
+    secondBookData.trackingNumber = secondBookData.trackingNumber + 1000; // Изменяем номер отслеживания
+
+    // Добавляем связь с той же выдачей
+    secondBookData.extraditionId = extraditionId;
+
+    // Добавляем вторую книгу в массив
+    books.push(secondBookData);
+  }
 }
 
 // Функция для очистки данных перед загрузкой
@@ -1440,19 +1428,11 @@ async function cleanupDatabase(prisma) {
   // Сначала удаляем записи из таблиц, которые ссылаются на другие таблицы
   await prisma.debt.deleteMany({});
 
-  // Обновляем связи книг с выдачами (устанавливаем extraditionId в null)
-  // Это необходимо, так как Book ссылается на Extradition
-  await prisma.book.updateMany({
-    data: {
-      extraditionId: null,
-    },
-  });
+  // Удаляем записи из таблицы книг
+  await prisma.book.deleteMany({});
 
   // Удаляем записи из таблицы выдач
   await prisma.extradition.deleteMany({});
-
-  // Удаляем записи из таблицы книг
-  await prisma.book.deleteMany({});
 
   // Удаляем записи из таблицы читателей
   await prisma.reader.deleteMany({});
@@ -1479,32 +1459,11 @@ async function main(prisma) {
     data: extraditions,
   });
 
-  // Создаем книги
-  console.log('Создание книг...');
+  // Создаем книги с уже установленными связями с выдачами
+  console.log('Создание книг с привязкой к выдачам...');
   await prisma.book.createMany({
     data: books,
   });
-
-  // Обновляем связи между книгами и выдачами
-  console.log('Обновление связей между книгами и выдачами...');
-  for (const relation of booksExtraditions) {
-    try {
-      await prisma.book.update({
-        where: { id: relation.bookId },
-        data: {
-          extradition: {
-            connect: { id: relation.extraditionId },
-          },
-        },
-      });
-    } catch (error) {
-      console.error(
-        `Ошибка при обновлении книги ${relation.bookId} для выдачи ${relation.extraditionId}:`,
-        error,
-      );
-      // Можно добавить логику обработки ошибок, например, пропустить эту связь
-    }
-  }
 
   // Создаем долги
   console.log('Создание долгов...');
