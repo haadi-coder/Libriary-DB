@@ -29,7 +29,7 @@ export const NavButtons: FC = () => {
           <Menu.Item component={Link} href="/search/books">
             По двум атрибутам
           </Menu.Item>
-          <Menu.Item component={Link} href="">
+          <Menu.Item component={Link} href="/search/extradition">
             По одному атрибуту
           </Menu.Item>
 
