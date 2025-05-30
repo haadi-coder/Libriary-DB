@@ -8,7 +8,7 @@ import axios from 'axios';
 import { Handbook } from '@/app/types/Handbook';
 import { useForm } from '@mantine/form';
 
-import { BooksFormValues} from './types/BooksFormValues';
+import { BooksFormValues } from './types/BooksFormValues';
 import { useBooksFilterQuery } from '@/app/search/books/useBooksFilterQuery';
 import { SelectAsync } from '@/app/components/SelectAsync';
 
@@ -25,17 +25,17 @@ const CreateBook: FC = () => {
   const [selectedGenere, setSelectedGenere] = useState<Handbook | null>();
   const [selectedPublisher, setSelectedPublisher] = useState<Handbook | null>();
   const [isPublisherEditable, setIsPublisherEditable] = useToggle();
-    const [isGenereEditable, setIsGenereEditable] = useToggle();
+  const [isGenereEditable, setIsGenereEditable] = useToggle();
 
   const form = useForm<BooksFormValues>({
     mode: 'controlled',
     initialValues: {
-       name: '',
+      name: '',
       trackingNumber: 0,
       genere: '',
       pagesCount: 0,
       publicationCount: 0,
-      publishedYear: 0,
+      publishedYear: 2000,
       publisher: '',
     },
     validate: {},
@@ -43,6 +43,8 @@ const CreateBook: FC = () => {
 
   const handleSubmit = (formValues: BooksFormValues) => {
     createBook(formValues);
+    setSelectedGenere(null);
+    setSelectedPublisher(null);
     form.reset();
   };
   const { filterOptions: booksFilterOptions } = useBooksFilterQuery();
@@ -75,17 +77,15 @@ const CreateBook: FC = () => {
             placeholder="Введите количество публикаций..."
             {...form.getInputProps('publicationCount')}
           />
-            <NumberInput
+          <NumberInput
             className="w-full mt-5"
             label="Год издания(с 2000 года до 2025)"
             allowNegative={false}
             min={2000}
             max={2025}
-            defaultValue={2000}
             placeholder="Введите год издания"
             {...form.getInputProps('publishedYear')}
           />
-
         </Grid.Col>
         <Grid.Col>
           <div className="mt-5 flex items-center gap-3">
@@ -108,7 +108,13 @@ const CreateBook: FC = () => {
               />
             )}
 
-            <Button variant= "filled" color="black" onClick={() => setIsGenereEditable()} fz={12} px={7} >
+            <Button
+              variant="filled"
+              color="black"
+              onClick={() => setIsGenereEditable()}
+              fz={12}
+              px={7}
+            >
               {isGenereEditable ? 'Выбрать' : 'Добавить'}
             </Button>
           </div>
@@ -132,7 +138,13 @@ const CreateBook: FC = () => {
               />
             )}
 
-            <Button variant= "filled" color="black" onClick={() => setIsPublisherEditable()} fz={12} px={7}>
+            <Button
+              variant="filled"
+              color="black"
+              onClick={() => setIsPublisherEditable()}
+              fz={12}
+              px={7}
+            >
               {isPublisherEditable ? 'Выбрать' : 'Добавить'}
             </Button>
           </div>
@@ -141,7 +153,7 @@ const CreateBook: FC = () => {
 
       <Flex justify="end">
         <Group className="mt-8">
-          <Button variant= "filled" color="black" disabled={!form.isValid()} type="submit">
+          <Button variant="filled" color="black" disabled={!form.isValid()} type="submit">
             Добавить <IconPlus size={16} className="ml-3" />
           </Button>
         </Group>
