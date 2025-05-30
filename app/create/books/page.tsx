@@ -7,7 +7,7 @@ import { useToggle } from '@mantine/hooks';
 import axios from 'axios';
 import { Handbook } from '@/app/types/Handbook';
 import { useForm } from '@mantine/form';
-import { MultiSelectAsync } from '@/app/components/MultiSelectAsync';
+
 import { BooksFormValues} from './types/BooksFormValues';
 import { useBooksFilterQuery } from '@/app/search/books/useBooksFilterQuery';
 import { SelectAsync } from '@/app/components/SelectAsync';
