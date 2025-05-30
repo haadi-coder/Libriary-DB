@@ -2,11 +2,11 @@
   
   &:active,
   &:hover {
-    background-color: #09381F;
+    background-color: #262628;
     color: white;
   }
 
   &:where([data-active]) {
-    background-color: #09381F;
+    background-color: #262628;
   }
 }

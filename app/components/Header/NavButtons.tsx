@@ -39,14 +39,14 @@ export const NavButtons: FC = () => {
       <Menu trigger="click">
         <Menu.Target>
           <Button
-            color={!currentPathname.startsWith('/create') ? 'white' : 'blue'}
-            variant={currentPathname.startsWith('/create') ? 'white' : 'subtle'}
+            color={!currentPathname.startsWith('/create') ? '#E6D4E6' : '#09381F'}
+            variant={currentPathname.startsWith('/create') ? 'filled' : 'subtle'}
           >
             Администрирование
           </Button>
         </Menu.Target>
         <Menu.Dropdown>
-          <Menu.Item component={Link} href="">
+          <Menu.Item component={Link} href="/create/books">
             Добавить книгу
           </Menu.Item>
           <Menu.Item component={Link} href="">
