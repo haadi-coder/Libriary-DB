@@ -41,10 +41,10 @@ const BooksTable: FC<BooksTableProps> = ({ data, withDelete, deleteRows }) => {
       highlightOnHover
       className=" mt-8 rounded-md"
       highlightOnHoverColor="#4169ee16"
-      bg="#E6D4E6"
+      bg="#ffffff"
       withRowBorders
     >
-      <Table.Thead bg="#09381F">
+      <Table.Thead bg="#262628">
         <Table.Tr>
           <Table.Th className="text-[16px] text-white ">Название</Table.Th>
           <Table.Th className="text-[16px] text-white ">Издатель</Table.Th>
