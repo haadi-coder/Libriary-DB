@@ -4,7 +4,6 @@ import { Handbook } from '@/app/types/Handbook';
 import { Center, Loader, Text } from '@mantine/core';
 import React, { FC, useState } from 'react';
 import { useExtraditionsFilterQuery } from './useExtraditionFilterQuery';
-import BooksTable from '@/app/components/BooksTable/BooksTable';
 import { useExtraditionDelete } from './useExtraditionDelete';
 import ExtraditionTable from '@/app/components/ExtraditionTable/ExtraditionTable';
 
@@ -28,7 +27,7 @@ const Extraditions: FC = () => {
             <SelectAsync
               className="w-full"
               placeholder="Название книги"
-              options={filterOptions.extraditionsOptions}
+              options={filterOptions.extraditionBooksOptions}
               fetchOptions={async () => {
                 setSelectedFilters(prev => ({ ...prev, name: null }));
               }}

@@ -6,15 +6,15 @@ import classes from './BooksTable.module.css';
 import React, { FC } from 'react';
 import { useToggle } from '@mantine/hooks';
 import { usePagination } from '@/app/hooks/usePagination';
-import { Books } from '@/app/search/books/types/books';
+import { Book } from '@/app/search/books/types/books';
 
 interface BooksTableProps {
-  data: Books[];
+  data: Book[];
   withDelete?: boolean;
   deleteRows?: (ids: string) => void;
 }
 const BooksTable: FC<BooksTableProps> = ({ data, withDelete, deleteRows }) => {
-  const { currentItems, page, total, setPage } = usePagination<Books>(data);
+  const { currentItems, page, total, setPage } = usePagination<Book>(data);
   const [isEditable, setIsEditable] = useToggle();
 
   const rows = currentItems.map(item => (
@@ -64,7 +64,7 @@ const BooksTable: FC<BooksTableProps> = ({ data, withDelete, deleteRows }) => {
           <Pagination
             size="md"
             classNames={{ control: classes.paginationControls }}
-            color='#E6D4E6'
+            color="#E6D4E6"
             total={total}
             value={page}
             onChange={setPage}

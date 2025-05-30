@@ -1,4 +1,4 @@
-export interface Books {
+export interface Book {
   id:string;
   name: string;
   trackingNumber: number;

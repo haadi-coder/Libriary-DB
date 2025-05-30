@@ -20,14 +20,14 @@ export const useExtraditionsFilterQuery = (searchParams?: ExtraditionsFilterSear
     },
   });
 
-  const extraditionsOptions: Handbook[] =
+  const extraditionBooksOptions: Handbook[] =
     data
       ?.flatMap(extradition => extradition.books)
       .map(books => ({ value: books.id, label: books.name }))
       .filter((item, index, arr) => index === arr.findIndex(s => s.label === item.label)) ?? [];
 
   const extraditionsFilterOptions = {
-    extraditionsOptions,
+    extraditionBooksOptions,
   };
 
   return { data, filterOptions: extraditionsFilterOptions, ...rest };

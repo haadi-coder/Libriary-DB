@@ -1,12 +1,11 @@
-import { Books } from "../../books/types/books";
+import { Book } from '../../books/types/books';
+import { Reader } from '../../readers/types/Reader';
 
 export interface Extradition {
-  id:string;
-  extraditionDate:string;
-  refundDate:string;
-  books: Books[];
+  id: string;
+  extraditionDate: string;
+  refundDate: string;
+  books: Book[];
   readerId: string | null;
-   reader?: {
-    firstName: string;
-  };
+  reader?: Reader;
 }

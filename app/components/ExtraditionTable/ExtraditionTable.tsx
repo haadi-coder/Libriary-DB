@@ -8,7 +8,6 @@ import { useToggle } from '@mantine/hooks';
 import { usePagination } from '@/app/hooks/usePagination';
 import { Extradition } from '@/app/search/extradition/types/extradition';
 
-
 interface ExtraditionTableProps {
   data: Extradition[];
   withDelete?: boolean;
@@ -17,12 +16,16 @@ interface ExtraditionTableProps {
 const ExtraditionTable: FC<ExtraditionTableProps> = ({ data, withDelete, deleteRows }) => {
   const { currentItems, page, total, setPage } = usePagination<Extradition>(data);
   const [isEditable, setIsEditable] = useToggle();
-    console.log(currentItems)
+
   const rows = currentItems.map(item => (
     <Table.Tr key={item.id}>
-      <Table.Td>{item.books[0].name}</Table.Td>
+      <Table.Td>
+        {item.books.map(book => (
+          <span key={book.id}>{book.name}</span>
+        ))}
+      </Table.Td>
       <Table.Td>{item.extraditionDate}</Table.Td>
-      <Table.Td>{item.refundDate}</Table.Td>
+      <Table.Td>{item.refundDate ?? '---'}</Table.Td>
       <Table.Td>{item.reader?.firstName}</Table.Td>
       {withDelete && isEditable && (
         <Table.Td p={10}>
@@ -63,7 +66,7 @@ const ExtraditionTable: FC<ExtraditionTableProps> = ({ data, withDelete, deleteR
           <Pagination
             size="md"
             classNames={{ control: classes.paginationControls }}
-            color='#E6D4E6'
+            color="#E6D4E6"
             total={total}
             value={page}
             onChange={setPage}
