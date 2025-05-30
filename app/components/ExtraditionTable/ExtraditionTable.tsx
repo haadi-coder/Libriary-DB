@@ -2,28 +2,31 @@
 
 import { ActionIcon, Pagination, Table } from '@mantine/core';
 import { IconChecks, IconEdit, IconTrash } from '@tabler/icons-react';
-import classes from './BooksTable.module.css';
+import classes from './ExtraditionTable.module.css';
 import React, { FC } from 'react';
 import { useToggle } from '@mantine/hooks';
 import { usePagination } from '@/app/hooks/usePagination';
-import { Book } from '@/app/search/books/types/books';
+import { Extradition } from '@/app/search/extradition/types/extradition';
 
-interface BooksTableProps {
-  data: Book[];
+interface ExtraditionTableProps {
+  data: Extradition[];
   withDelete?: boolean;
   deleteRows?: (ids: string) => void;
 }
-const BooksTable: FC<BooksTableProps> = ({ data, withDelete, deleteRows }) => {
-  const { currentItems, page, total, setPage } = usePagination<Book>(data);
+const ExtraditionTable: FC<ExtraditionTableProps> = ({ data, withDelete, deleteRows }) => {
+  const { currentItems, page, total, setPage } = usePagination<Extradition>(data);
   const [isEditable, setIsEditable] = useToggle();
 
   const rows = currentItems.map(item => (
     <Table.Tr key={item.id}>
-      <Table.Td>{item.name}</Table.Td>
-      <Table.Td>{item.publisher}</Table.Td>
-      <Table.Td>{item.genere}</Table.Td>
-      <Table.Td>{item.publishedYear}</Table.Td>
-      <Table.Td>{item.publicationCount}</Table.Td>
+      <Table.Td>
+        {item.books.map(book => (
+          <span key={book.id}>{book.name}</span>
+        ))}
+      </Table.Td>
+      <Table.Td>{item.extraditionDate}</Table.Td>
+      <Table.Td>{item.refundDate ?? '---'}</Table.Td>
+      <Table.Td>{item.reader?.firstName}</Table.Td>
       {withDelete && isEditable && (
         <Table.Td p={10}>
           <ActionIcon color="red" variant="subtle" onClick={() => deleteRows?.(item.id)}>
@@ -46,11 +49,10 @@ const BooksTable: FC<BooksTableProps> = ({ data, withDelete, deleteRows }) => {
     >
       <Table.Thead bg="#09381F">
         <Table.Tr>
-          <Table.Th className="text-[16px] text-white ">Название</Table.Th>
-          <Table.Th className="text-[16px] text-white ">Издатель</Table.Th>
-          <Table.Th className="text-[16px] text-white ">Жанр</Table.Th>
-          <Table.Th className="text-[16px] text-white ">Год издания</Table.Th>
-          <Table.Th className="text-[16px] text-white ">Количество книг</Table.Th>
+          <Table.Th className="text-[16px] text-white ">Название книги</Table.Th>
+          <Table.Th className="text-[16px] text-white ">Дата выдачи</Table.Th>
+          <Table.Th className="text-[16px] text-white ">Дата возврата</Table.Th>
+          <Table.Th className="text-[16px] text-white ">Имя читателя</Table.Th>
           <Table.Th px={10} className="w-[40px]">
             <ActionIcon onClick={() => setIsEditable()} variant="subtle" color="white">
               {!isEditable ? <IconEdit /> : <IconChecks />}
@@ -76,4 +78,4 @@ const BooksTable: FC<BooksTableProps> = ({ data, withDelete, deleteRows }) => {
   );
 };
 
-export default BooksTable;
+export default ExtraditionTable;

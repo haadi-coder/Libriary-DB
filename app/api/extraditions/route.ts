@@ -4,10 +4,11 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export const GET = async (request: NextRequest) => {
   const searchParams = request.nextUrl.searchParams;
-
+  
   const refundDate = searchParams.get('rf');
   const bookId = searchParams.get('b');
   const readerId = searchParams.get('r');
+  
 
   const where: Prisma.ExtraditionWhereInput = {};
 
