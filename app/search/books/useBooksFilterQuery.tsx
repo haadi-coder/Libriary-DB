@@ -2,6 +2,7 @@ import { Handbook } from '@/app/types/Handbook';
 import { useQuery } from '@tanstack/react-query';
 import axios, { AxiosResponse } from 'axios';
 import { Book } from './types/books';
+import { useCurrentDbSchema } from '@/app/hooks/useCurrentDbSchema';
 
 interface BooksFilterSearchParams {
   publisher: Handbook | null;
@@ -9,11 +10,13 @@ interface BooksFilterSearchParams {
 }
 
 export const useBooksFilterQuery = (searchParams?: BooksFilterSearchParams) => {
+  const { currentDbSchema } = useCurrentDbSchema();
   const { data, ...rest } = useQuery({
-    queryKey: ['books', searchParams],
+    queryKey: ['books', searchParams, currentDbSchema],
     queryFn: async () => {
       const response = await axios.get<unknown, AxiosResponse<Book[]>>('/api/books', {
         params: {
+          schema: currentDbSchema,
           p: searchParams?.publisher?.label,
           g: searchParams?.genere?.label,
         },
