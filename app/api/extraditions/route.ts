@@ -51,6 +51,8 @@ export const POST = async (request: NextRequest) => {
     data: {
       extraditionDate: requestData.extraditionDate,
       refundDate: requestData.refundDate,
+      readerId: requestData.readerId,
+      books: {connect: requestData.books},
     },
   });
 
