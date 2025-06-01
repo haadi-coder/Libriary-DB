@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { BooksCountByGenere } from './components/BooksCountByGenereTable';
+import { useCurrentDbSchema } from './hooks/useCurrentDbSchema';
 
 interface Statistics {
   booksCountByGenere: BooksCountByGenere[];
@@ -10,8 +11,9 @@ interface Statistics {
 }
 
 export const useStatistics = () => {
+  const { currentDbSchema } = useCurrentDbSchema();
   return useQuery<Statistics>({
-    queryKey: ['statistics'],
-    queryFn: async () => (await fetch('/api/statistics')).json(),
+    queryKey: ['statistics', currentDbSchema],
+    queryFn: async () => (await fetch(`/api/statistics?schema=${currentDbSchema}`)).json(),
   });
 };
