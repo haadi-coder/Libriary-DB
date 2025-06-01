@@ -13,12 +13,14 @@ export const GET = async (request: NextRequest) => {
   const publisher = searchParams.get('p');
   const publishedYear = searchParams.get('py');
   const genere = searchParams.get('g');
+  const name = searchParams.get('n')
 
   const where: Prisma.BookWhereInput = {};
 
   if (publisher) where.publisher = publisher;
   if (publishedYear) where.publishedYear = parseInt(publishedYear);
   if (genere) where.genere = genere;
+  if (name) where.name = name;
 
   if (schema === 'postgresql') {
     const books = await getPostgresqlRouteConfig({ publisher, genere, publishedYear });

@@ -9,7 +9,7 @@ interface ExtraditionsFilterSearchParams {
 
 export const useExtraditionsFilterQuery = (searchParams?: ExtraditionsFilterSearchParams) => {
   const { data, ...rest } = useQuery({
-    queryKey: ['extradition', searchParams],
+    queryKey: ['extraditions', searchParams],
     queryFn: async () => {
       const response = await axios.get<unknown, AxiosResponse<Extradition[]>>('/api/extraditions', {
         params: {

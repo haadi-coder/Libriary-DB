@@ -9,10 +9,10 @@ const Header = () => {
   const { currentDbSchema, setCurrentDbSchema } = useCurrentDbSchema();
 
   return (
-    <header className="flex justify-between items-center pl-32 pr-10 py-4 bg-[#09381F] sticky top-0 z-10">
+    <header className="flex justify-between items-center pl-32 pr-10 py-4 bg-[#262628] sticky top-0 z-10">
       <Group gap="14px" align="center">
         <IconBookFilled color="white" size="2.5rem" />
-        <Text c="#F3FFB6" fw={700} fz="1.5rem">
+        <Text c="#ffffff" fw={700} fz="1.5rem">
           Library DB
         </Text>
       </Group>
@@ -22,7 +22,7 @@ const Header = () => {
           ml={50}
           size="lg"
           checked={currentDbSchema === 'postgresql'}
-          color="#09381F"
+          color="#262628"
           onChange={e => setCurrentDbSchema(e.target.checked ? 'postgresql' : 'mysql')}
           onLabel={
             <Text p={10} fz={12}>
