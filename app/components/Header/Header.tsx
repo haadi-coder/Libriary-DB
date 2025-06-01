@@ -3,10 +3,11 @@ import { Group, Switch, Text } from '@mantine/core';
 import { IconBookFilled } from '@tabler/icons-react';
 import React from 'react';
 import { NavButtons } from './NavButtons';
-import { useToggle } from '@mantine/hooks';
+import { useCurrentDbSchema } from '@/app/hooks/useCurrentDbSchema';
 
 const Header = () => {
-  const [value, toggle] = useToggle(['Postgresql', 'Mysql']);
+  const { currentDbSchema, setCurrentDbSchema } = useCurrentDbSchema();
+
   return (
     <header className="flex justify-between items-center pl-32 pr-10 py-4 bg-[#262628] sticky top-0 z-10">
       <Group gap="14px" align="center">
@@ -20,11 +21,19 @@ const Header = () => {
         <Switch
           ml={50}
           size="lg"
-          checked={value === 'Postgresql'}
-          color='#262628'
-          onChange={() => toggle()}
-          onLabel={<Text p={10} fz={12}>Postgresql</Text>}
-          offLabel={<Text p={10} fz={12}>MySql</Text>}
+          checked={currentDbSchema === 'postgresql'}
+          color="#262628"
+          onChange={e => setCurrentDbSchema(e.target.checked ? 'postgresql' : 'mysql')}
+          onLabel={
+            <Text p={10} fz={12}>
+              Postgresql
+            </Text>
+          }
+          offLabel={
+            <Text p={10} fz={12}>
+              MySql
+            </Text>
+          }
         />
         <NavButtons />
       </Group>

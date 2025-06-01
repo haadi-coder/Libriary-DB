@@ -11,17 +11,20 @@ import { useForm } from '@mantine/form';
 import { BooksFormValues } from './types/BooksFormValues';
 import { useBooksFilterQuery } from '@/app/search/books/useBooksFilterQuery';
 import { SelectAsync } from '@/app/components/SelectAsync';
+import { CurrentDbSchema, useCurrentDbSchema } from '@/app/hooks/useCurrentDbSchema';
 
-const createBook = async (data: BooksFormValues) => {
+const createBook = async (data: BooksFormValues, schema: CurrentDbSchema) => {
   const response = await axios.post(`/api/books`, data, {
     headers: {
       'Content-Type': 'application/json',
     },
+    params: { schema },
   });
   return { status: response.status, data: response.data };
 };
 
 const CreateBook: FC = () => {
+  const { currentDbSchema } = useCurrentDbSchema();
   const [selectedGenere, setSelectedGenere] = useState<Handbook | null>();
   const [selectedPublisher, setSelectedPublisher] = useState<Handbook | null>();
   const [isPublisherEditable, setIsPublisherEditable] = useToggle();
@@ -42,7 +45,7 @@ const CreateBook: FC = () => {
   });
 
   const handleSubmit = (formValues: BooksFormValues) => {
-    createBook(formValues);
+    createBook(formValues, currentDbSchema);
     setSelectedGenere(null);
     setSelectedPublisher(null);
     form.reset();

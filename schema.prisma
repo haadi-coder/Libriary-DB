@@ -66,3 +66,59 @@ model Reader{
 
   extraditions           Extradition[] 
 }
+
+
+
+
+
+
+model ExtraditionM{
+  id                      String       @default(cuid())   @id
+  extraditionDate         String
+  refundDate              String?
+
+  books                   BookM[]   
+
+  readerId                String?
+  reader                  ReaderM?      @relation(fields:[readerId], references:[id])
+
+  debt                    DebtM?
+}
+
+model BookM{
+  id                      String       @default(cuid())   @id
+  name                    String
+  trackingNumber          Int
+  publicationCount        Int?
+  publisher               String?
+  publishedYear           Int?
+  pagesCount              Int?
+  genere                  String?
+
+  extraditionId           String?
+  extradition             ExtraditionM? @relation(fields:[extraditionId], references:[id])
+}
+
+
+model DebtM{
+  id                      String        @default(cuid())   @id
+  date                    String
+
+  extradition             ExtraditionM? @relation(fields:[extraditionId], references:[id])       
+  extraditionId           String?      @unique
+}
+
+
+model ReaderM{
+  id                     String       @default(cuid())   @id
+  lastName               String
+  firstName              String
+  addressStreet          String?
+  adressCity             String?
+  phoneNumber            String?
+  registratedDate        String?
+  status                 String
+  category               String?
+
+  extraditions           ExtraditionM[] 
+}
