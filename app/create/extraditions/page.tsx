@@ -1,9 +1,9 @@
 'use client';
 
-import { Button, Flex, Grid, Group, NumberInput, TextInput } from '@mantine/core';
+import { Button, Flex, Grid, Group } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
 import React, { FC, useState } from 'react';
-import { useListState, useToggle } from '@mantine/hooks';
+import { useListState } from '@mantine/hooks';
 import axios from 'axios';
 import { Handbook } from '@/app/types/Handbook';
 import { useForm } from '@mantine/form';
@@ -27,7 +27,6 @@ const createExtradition = async (data: ExtraditionsFormValues) => {
 const CreateExtradition: FC = () => {
   const [selectedReader, setSelectedReader] = useState<Handbook | null>();
   const [selectedBooks, booksHandlers] = useListState<Handbook>([]);
-
 
   const form = useForm<ExtraditionsFormValues>({
     mode: 'controlled',
@@ -54,7 +53,7 @@ const CreateExtradition: FC = () => {
     >
       <Grid>
         <Grid.Col span={12}>
-           <DateInput
+          <DateInput
             className="w-full mt-5"
             label="Дата выдачи"
             placeholder="Введите дату выдачи..."
@@ -69,32 +68,31 @@ const CreateExtradition: FC = () => {
         </Grid.Col>
         <Grid.Col>
           <div className="mt-5 flex items-center gap-3">
-              <MultiSelectAsync
-                placeholder="Выберите книги"
-                className="w-full flex-7/12"
-                options={booksFilterOptions.nameOptions}
-                value={selectedBooks || null}
-                onChange={payload => {
-                    booksHandlers.setState(payload);
+            <MultiSelectAsync
+              placeholder="Выберите книги"
+              className="w-full flex-7/12"
+              options={booksFilterOptions.nameOptions}
+              value={selectedBooks || null}
+              onChange={payload => {
+                booksHandlers.setState(payload);
                 const result = books
-                ?.filter(item => payload.find(value => value.value === item.id))
-                .map(item => ({ id: item.id }));
+                  ?.filter(item => payload.find(value => value.value === item.id))
+                  .map(item => ({ id: item.id }));
 
-            form.setFieldValue('books', result || []);
-                }}
-              />
-
+                form.setFieldValue('books', result || []);
+              }}
+            />
           </div>
           <div className="mt-5 flex items-center gap-3">
             <SelectAsync
-                placeholder="Выберите читателя"
-                className="w-full flex-7/12"
-                options={readersFilterOptions.readerNameOptions}
-                value={selectedReader || null}
-                onChange={payload => {
-                    setSelectedReader(payload);
-                    form.setFieldValue('readerId', payload?.label || '');
-                }}
+              placeholder="Выберите читателя"
+              className="w-full flex-7/12"
+              options={readersFilterOptions.readerNameOptions}
+              value={selectedReader || null}
+              onChange={payload => {
+                setSelectedReader(payload);
+                form.setFieldValue('readerId', payload?.value || '');
+              }}
             />
           </div>
         </Grid.Col>
