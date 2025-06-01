@@ -6,6 +6,7 @@ import { Book } from './types/books';
 interface BooksFilterSearchParams {
   publisher: Handbook | null;
   genere: Handbook | null;
+  name?: Handbook | null;
 }
 
 export const useBooksFilterQuery = (searchParams?: BooksFilterSearchParams) => {
@@ -16,12 +17,16 @@ export const useBooksFilterQuery = (searchParams?: BooksFilterSearchParams) => {
         params: {
           p: searchParams?.publisher?.label,
           g: searchParams?.genere?.label,
+          n: searchParams?.name?.label,
         },
       });
       return response.data;
     },
   });
-
+  const nameOptions: Handbook[] =
+    data
+      ?.map(books => ({ value: books.id, label: books.name }))
+      .filter((item, index, arr) => index === arr.findIndex(s => s.label === item.label)) ?? [];
   const publisherOptions: Handbook[] =
     data
       ?.map(books => ({ value: books.id, label: books.publisher }))
@@ -35,6 +40,7 @@ export const useBooksFilterQuery = (searchParams?: BooksFilterSearchParams) => {
   const booksFilterOptions = {
     publisherOptions,
     genereOptions,
+    nameOptions,
   };
 
   return { data, filterOptions: booksFilterOptions, ...rest };
