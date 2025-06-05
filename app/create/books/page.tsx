@@ -56,6 +56,7 @@ const CreateBook: FC = () => {
       onSubmit={form.onSubmit(values => handleSubmit(values))}
       className="h-[64vh] mt-10 mx-100 p-10   bg-white rounded-lg"
     >
+      <h1 className='text-2xl font-bold mb-4'> Добавление книги</h1>
       <Grid>
         <Grid.Col span={6}>
           <TextInput

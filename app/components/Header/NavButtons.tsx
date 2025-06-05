@@ -46,9 +46,6 @@ export const NavButtons: FC = () => {
           </Button>
         </Menu.Target>
         <Menu.Dropdown>
-          <Menu.Item component={Link} href="/create/books">
-            Добавить книгу
-          </Menu.Item>
           <Menu.Item component={Link} href="/create/extraditions">
             Добавить выдачу
           </Menu.Item>

@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Flex, Grid, Group } from '@mantine/core';
+import { Button, Flex, Grid, GridCol, Group } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
 import React, { FC, useState } from 'react';
 import { useListState } from '@mantine/hooks';
@@ -14,6 +14,7 @@ import { SelectAsync } from '@/app/components/SelectAsync';
 import { DateInput } from '@mantine/dates';
 import { MultiSelectAsync } from '@/app/components/MultiSelectAsync';
 import { useReadersFilterQuery } from '@/app/search/readers/useReadersFilterQuery';
+import Link from 'next/link';
 
 const createExtradition = async (data: ExtraditionsFormValues) => {
   const response = await axios.post(`/api/extraditions`, data, {
@@ -51,6 +52,7 @@ const CreateExtradition: FC = () => {
       onSubmit={form.onSubmit(values => handleSubmit(values))}
       className="h-[64vh] mt-10 mx-100 p-10   bg-white rounded-lg"
     >
+      <h1 className='text-2xl font-bold mb-4'> Добавление выдачи</h1>
       <Grid>
         <Grid.Col span={12}>
           <DateInput
@@ -65,8 +67,20 @@ const CreateExtradition: FC = () => {
             placeholder="Введите дату возврата..."
             {...form.getInputProps('refundDate')}
           />
+           <div className="mt-5 flex items-center gap-3">
+            <SelectAsync
+              placeholder="Выберите читателя"
+              className="w-full flex-7/12"
+              options={readersFilterOptions.readerNameOptions}
+              value={selectedReader || null}
+              onChange={payload => {
+                setSelectedReader(payload);
+                form.setFieldValue('readerId', payload?.value || '');
+              }}
+            />
+          </div>
         </Grid.Col>
-        <Grid.Col>
+        <Grid.Col span={12}>
           <div className="mt-5 flex items-center gap-3">
             <MultiSelectAsync
               placeholder="Выберите книги"
@@ -82,19 +96,11 @@ const CreateExtradition: FC = () => {
                 form.setFieldValue('books', result || []);
               }}
             />
+            <Button  color="black" component={Link} href="/create/books">
+              Добавить книгу
+            </Button>
           </div>
-          <div className="mt-5 flex items-center gap-3">
-            <SelectAsync
-              placeholder="Выберите читателя"
-              className="w-full flex-7/12"
-              options={readersFilterOptions.readerNameOptions}
-              value={selectedReader || null}
-              onChange={payload => {
-                setSelectedReader(payload);
-                form.setFieldValue('readerId', payload?.value || '');
-              }}
-            />
-          </div>
+          
         </Grid.Col>
       </Grid>
 
