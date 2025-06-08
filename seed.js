@@ -2194,9 +2194,9 @@ export const bookBaseData = [
 // Создаем книги с привязкой к выдачам
 const books = [];
 // Распределяем 30 книг по 50 выдачам
-for (let i = 0; i < 50; i++) {
+for (let i = 0; i < extraditions.length; i++) {
   const extraditionId = `clr1extradition${(i + 1).toString().padStart(3, '0')}`;
-  const bookIndex = i % 30; // Используем книги по кругу
+  const bookIndex = i % bookBaseData.length; // Используем книги по кругу
 
   // Копируем базовые данные книги
   const bookData = { ...bookBaseData[bookIndex] };
@@ -2206,22 +2206,6 @@ for (let i = 0; i < 50; i++) {
 
   // Добавляем книгу в массив
   books.push(bookData);
-
-  // Для первых 20 выдач добавляем еще по одной книге
-  if (i < 20) {
-    const secondBookIndex = (i + 1) % 30; // Следующая книга по кругу
-    const secondBookData = { ...bookBaseData[secondBookIndex] };
-
-    // Изменяем ID книги, чтобы избежать дублирования
-    secondBookData.id = `clr1book${(secondBookIndex + 1).toString().padStart(3, '0')}_extra`;
-    secondBookData.trackingNumber = secondBookData.trackingNumber + 1000; // Изменяем номер отслеживания
-
-    // Добавляем связь с той же выдачей
-    secondBookData.extraditionId = extraditionId;
-
-    // Добавляем вторую книгу в массив
-    books.push(secondBookData);
-  }
 }
 
 // Функция для очистки данных перед загрузкой
