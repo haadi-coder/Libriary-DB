@@ -15,8 +15,8 @@ export default function Home() {
 
   return (
     <main className="mx-20">
-      <div className="flex gap-10  mt-10">
-
+      <h1  className='ml-10 mt-4 text-2xl font-bold'> Статистика</h1>
+      <div className="flex gap-10">
         <Box className="w-full px-10 py-6 bg-white rounded-xl h-fit">
           <Text fw="bold" fz={18}>
             Количество книг по жанрам

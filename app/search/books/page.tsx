@@ -22,8 +22,9 @@ const Books: FC = () => {
   const { mutateAsync: deleteBooks, isPending } = useBooksDelete();
 
   return (
-    <div className="mt-10 mx-10">
-      <div className="mt-20 mx-10 ">
+    <div className=" mx-10">
+      <h1  className='mt-5 ml-10 text-2xl font-bold mb-4'> Поиск по издательству и жанру</h1>
+      <div className="mx-10 ">
         <div className="flex gap-6">
           <div className="flex w-full gap-3">
             <SelectAsync
