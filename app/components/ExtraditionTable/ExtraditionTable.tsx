@@ -45,7 +45,7 @@ const ExtraditionTable: FC<ExtraditionTableProps> = ({ data, withDelete, deleteR
     >
       <Table.Thead bg="#262628">
         <Table.Tr>
-          <Table.Th className="text-[16px] text-white ">Название книги</Table.Th>
+          <Table.Th className="text-[16px] text-white ">Выданные книги</Table.Th>
           <Table.Th className="text-[16px] text-white ">Дата выдачи</Table.Th>
           <Table.Th className="text-[16px] text-white ">Дата возврата</Table.Th>
           <Table.Th className="text-[16px] text-white ">Имя читателя</Table.Th>
