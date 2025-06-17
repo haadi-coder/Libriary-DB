@@ -12,6 +12,7 @@ import { BooksFormValues } from './types/BooksFormValues';
 import { useBooksFilterQuery } from '@/app/search/books/useBooksFilterQuery';
 import { SelectAsync } from '@/app/components/SelectAsync';
 import { CurrentDbSchema, useCurrentDbSchema } from '@/app/hooks/useCurrentDbSchema';
+import { notifications } from '@mantine/notifications';
 
 const createBook = async (data: BooksFormValues, schema: CurrentDbSchema) => {
   const response = await axios.post(`/api/books`, data, {
@@ -29,6 +30,7 @@ const CreateBook: FC = () => {
   const [selectedPublisher, setSelectedPublisher] = useState<Handbook | null>();
   const [isPublisherEditable, setIsPublisherEditable] = useToggle();
   const [isGenereEditable, setIsGenereEditable] = useToggle();
+  const { filterOptions: booksFilterOptions } = useBooksFilterQuery();
 
   const form = useForm<BooksFormValues>({
     mode: 'controlled',
@@ -44,19 +46,36 @@ const CreateBook: FC = () => {
     validate: {},
   });
 
-  const handleSubmit = (formValues: BooksFormValues) => {
-    createBook(formValues, currentDbSchema);
-    setSelectedGenere(null);
-    setSelectedPublisher(null);
-    form.reset();
+  const handleSubmit = async (formValues: BooksFormValues) => {
+    try {
+      const { status } = await createBook(formValues, currentDbSchema);
+
+      if (status === 201 || status || 200) {
+        setSelectedGenere(null);
+        setSelectedPublisher(null);
+        form.reset();
+
+        notifications.show({
+          title: 'Успешно',
+          message: 'Добавление ученика прошло успешно',
+          color: 'green',
+        });
+      }
+    } catch {
+      notifications.show({
+        title: 'Ошибка',
+        message: 'Что-тоо пошло не так. Заполните все необходимые поля',
+        color: 'red',
+      });
+    }
   };
-  const { filterOptions: booksFilterOptions } = useBooksFilterQuery();
+
   return (
     <form
       onSubmit={form.onSubmit(values => handleSubmit(values))}
       className="h-[64vh] mt-10 mx-100 p-10   bg-white rounded-lg"
     >
-      <h1 className='text-2xl font-bold mb-4'> Добавление книги</h1>
+      <h1 className="text-2xl font-bold mb-4"> Добавление книги</h1>
       <Grid>
         <Grid.Col span={6}>
           <TextInput

@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export const GET = async (request: NextRequest) => {
   const searchParams = request.nextUrl.searchParams;
 
-  const firstName = searchParams.get('fn')
+  const firstName = searchParams.get('fn');
   const addressCity = searchParams.get('c');
   const registratedDate = searchParams.get('rd');
   const status = searchParams.get('s');
@@ -13,7 +13,7 @@ export const GET = async (request: NextRequest) => {
 
   const where: Prisma.ReaderWhereInput = {};
 
-  if (firstName) where.firstName= firstName;
+  if (firstName) where.firstName = firstName;
   if (addressCity) where.adressCity = addressCity;
   if (registratedDate) where.registratedDate = registratedDate;
   if (status) where.status = status;
@@ -23,6 +23,7 @@ export const GET = async (request: NextRequest) => {
     where,
     select: {
       id: true,
+      patronomic: true,
       firstName: true,
       lastName: true,
       addressStreet: true,

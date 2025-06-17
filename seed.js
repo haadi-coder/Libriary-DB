@@ -115,6 +115,58 @@ const firstNames = [
   'Егор',
 ];
 
+const patronomic = [
+  'Иванович',
+  'Петрович',
+  'Сидорович',
+  'Смирнович',
+  'Кузнецович',
+  'Попович',
+  'Васильевич',
+  'Соколович',
+  'Михайлович',
+  'Новикович',
+  'Федорович',
+  'Морозович',
+  'Волкович',
+  'Алексеевич',
+  'Лебедевич',
+  'Семенович',
+  'Егорович',
+  'Павлович',
+  'Козлович',
+  'Степанович',
+  'Николаевич',
+  'Орлович',
+  'Андреевич',
+  'Макарович',
+  'Никитович',
+  'Захарович',
+  'Зайцевич',
+  'Соловьевич',
+  'Борисович',
+  'Яковлевич',
+  'Григорьевич',
+  'Романович',
+  'Киселевич',
+  'Ильинич',
+  'Максимович',
+  'Полякович',
+  'Сорокинович',
+  'Виноградович',
+  'Николаевич',
+  'Белович',
+  'Михаилович',
+  'Антонович',
+  'Тарасович',
+  'Жукович',
+  'Филиппович',
+  'Давыдович',
+  'Беляевич',
+  'Герасимович',
+  'Богданович',
+];
+
 const bookNames = [
   'Война и мир',
   'Преступление и наказание',
@@ -420,10 +472,10 @@ async function main() {
   console.log('Процесс удаления...');
 
   // Очищаем существующие данные
-  await prisma.debt.deleteMany();
-  await prisma.book.deleteMany();
-  await prisma.extradition.deleteMany();
-  await prisma.reader.deleteMany();
+  await prisma.debtM.deleteMany();
+  await prisma.bookM.deleteMany();
+  await prisma.extraditionM.deleteMany();
+  await prisma.readerM.deleteMany();
 
   console.log('Начало заполнения базы данных...');
 
@@ -431,10 +483,11 @@ async function main() {
   console.log('Создание читателей...');
   const readers = [];
   for (let i = 0; i < 150; i++) {
-    const reader = await prisma.reader.create({
+    const reader = await prisma.readerM.create({
       data: {
         lastName: getRandomElement(lastNames),
         firstName: getRandomElement(firstNames),
+        patronomic: getRandomElement(patronomic),
         addressStreet: `${getRandomElement(streets)}, д. ${getRandomInt(1, 200)}`,
         adressCity: getRandomElement(cities),
         phoneNumber: generatePhoneNumber(),
@@ -450,7 +503,7 @@ async function main() {
   console.log('Создание книг...');
   const books = [];
   for (let i = 0; i < 150; i++) {
-    const book = await prisma.book.create({
+    const book = await prisma.bookM.create({
       data: {
         name: generateBookName(i),
         trackingNumber: 1000 + i,
@@ -485,7 +538,7 @@ async function main() {
     const extraditionDate = getRandomDate(new Date(2022, 0, 1), new Date(2024, 11, 31));
     const shouldHaveRefund = Math.random() > 0.25; // 75% книг возвращены
 
-    const extradition = await prisma.extradition.create({
+    const extradition = await prisma.extraditionM.create({
       data: {
         extraditionDate: extraditionDate,
         refundDate: shouldHaveRefund
@@ -507,7 +560,7 @@ async function main() {
     const extradition = overdue[i];
     const debtDate = getRandomDate(new Date(extradition.extraditionDate), new Date(2025, 5, 17));
 
-    await prisma.debt.create({
+    await prisma.debtM.create({
       data: {
         date: debtDate,
         extraditionId: extradition.id,
@@ -518,10 +571,10 @@ async function main() {
   console.log('Заполнение базы данных завершено!');
 
   // Выводим статистику
-  const readerCount = await prisma.reader.count();
-  const bookCount = await prisma.book.count();
-  const extraditionCount = await prisma.extradition.count();
-  const debtCountFinal = await prisma.debt.count();
+  const readerCount = await prisma.readerM.count();
+  const bookCount = await prisma.bookM.count();
+  const extraditionCount = await prisma.extraditionM.count();
+  const debtCountFinal = await prisma.debtM.count();
 
   console.log(`Создано:`);
   console.log(`- Читателей: ${readerCount}`);

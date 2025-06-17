@@ -57,6 +57,7 @@ model Reader{
   id                     String       @default(cuid())   @id
   lastName               String
   firstName              String
+  patronomic             String?
   addressStreet          String?
   adressCity             String?
   phoneNumber            String?
@@ -113,6 +114,7 @@ model ReaderM{
   id                     String       @default(cuid())   @id
   lastName               String
   firstName              String
+  patronomic             String?
   addressStreet          String?
   adressCity             String?
   phoneNumber            String?

@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryStreamedHydration } from '@tanstack/react-query-next-experimental';
 import { useState } from 'react';
 import 'dayjs/locale/ru';
+import { Notifications } from '@mantine/notifications';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -44,6 +45,7 @@ export const RootProvider = ({ children }) => {
       >
         <QueryClientProvider client={client}>
           <DatesProvider settings={{ locale: 'ru' }}>
+            <Notifications />
             <ReactQueryStreamedHydration>{children}</ReactQueryStreamedHydration>
           </DatesProvider>
         </QueryClientProvider>

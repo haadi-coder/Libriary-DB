@@ -21,8 +21,11 @@ export const useReadersFilterQuery = (searchParams?: ReadersFilterSearchParams) 
   });
 
   const readerNameOptions: Handbook[] =
-      data
-      ?.map(reader => ({ value: reader.id, label: reader.firstName }))
+    data
+      ?.map(reader => ({
+        value: reader.id,
+        label: `${reader.lastName} ${reader.firstName} ${reader.patronomic}`,
+      }))
       .filter((item, index, arr) => index === arr.findIndex(s => s.label === item.label)) ?? [];
 
   const readersFilterOptions = {
