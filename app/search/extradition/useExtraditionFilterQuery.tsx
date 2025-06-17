@@ -23,7 +23,8 @@ export const useExtraditionsFilterQuery = (searchParams?: ExtraditionsFilterSear
   const extraditionBooksOptions: Handbook[] =
     data
       ?.map(({ book }) => ({ value: book.id, label: book.name }))
-      .filter((item, index, arr) => index === arr.findIndex(s => s.label === item.label)) ?? [];
+      .filter((item, index, arr) => index === arr.findIndex(s => s.label === item.label))
+      .sort((a, b) => a.label.localeCompare(b.label)) ?? [];
 
   const extraditionsFilterOptions = {
     extraditionBooksOptions,

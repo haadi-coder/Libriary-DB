@@ -29,16 +29,19 @@ export const useBooksFilterQuery = (searchParams?: BooksFilterSearchParams) => {
   const nameOptions: Handbook[] =
     data
       ?.map(books => ({ value: books.id, label: books.name }))
-      .filter((item, index, arr) => index === arr.findIndex(s => s.label === item.label)) ?? [];
+      .filter((item, index, arr) => index === arr.findIndex(s => s.label === item.label))
+      .sort((a, b) => a.label.localeCompare(b.label)) ?? [];
   const publisherOptions: Handbook[] =
     data
       ?.map(books => ({ value: books.id, label: books.publisher }))
-      .filter((item, index, arr) => index === arr.findIndex(s => s.label === item.label)) ?? [];
+      .filter((item, index, arr) => index === arr.findIndex(s => s.label === item.label))
+      .sort((a, b) => a.label.localeCompare(b.label)) ?? [];
 
   const genereOptions: Handbook[] =
     data
       ?.map(books => ({ value: books.genere, label: books.genere }))
-      .filter((item, index, arr) => index === arr.findIndex(s => s.label === item.label)) ?? [];
+      .filter((item, index, arr) => index === arr.findIndex(s => s.label === item.label))
+      .sort((a, b) => a.label.localeCompare(b.label)) ?? [];
 
   const booksFilterOptions = {
     publisherOptions,

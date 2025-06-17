@@ -26,7 +26,8 @@ export const useReadersFilterQuery = (searchParams?: ReadersFilterSearchParams) 
         value: reader.id,
         label: `${reader.lastName} ${reader.firstName} ${reader.patronomic}`,
       }))
-      .filter((item, index, arr) => index === arr.findIndex(s => s.label === item.label)) ?? [];
+      .filter((item, index, arr) => index === arr.findIndex(s => s.label === item.label))
+      .sort((a, b) => a.label.localeCompare(b.label)) ?? [];
 
   const readersFilterOptions = {
     readerNameOptions,
