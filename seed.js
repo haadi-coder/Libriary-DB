@@ -35,6 +35,25 @@ const lastNames = [
   'Яковлев',
   'Григорьев',
   'Романов',
+  'Киселев',
+  'Ильин',
+  'Максимов',
+  'Поляков',
+  'Сорокин',
+  'Виноградов',
+  'Ковалев',
+  'Белов',
+  'Медведев',
+  'Антонов',
+  'Тарасов',
+  'Жуков',
+  'Баранов',
+  'Филиппов',
+  'Комаров',
+  'Давыдов',
+  'Беляев',
+  'Герасимов',
+  'Богданов',
 ];
 
 const firstNames = [
@@ -71,6 +90,29 @@ const firstNames = [
   'Светлана',
   'Татьяна',
   'Юлия',
+  'Екатерина',
+  'Ирина',
+  'Людмила',
+  'Галина',
+  'Валентина',
+  'Нина',
+  'Любовь',
+  'Вера',
+  'Надежда',
+  'Лариса',
+  'Тамара',
+  'Константин',
+  'Леонид',
+  'Станислав',
+  'Анатолий',
+  'Юрий',
+  'Денис',
+  'Кирилл',
+  'Семен',
+  'Федор',
+  'Матвей',
+  'Даниил',
+  'Егор',
 ];
 
 const bookNames = [
@@ -125,6 +167,90 @@ const bookNames = [
   'Веб-дизайн основы',
   'Машинное обучение',
   'Искусственный интеллект',
+  'Капитанская дочка',
+  'Ревизор',
+  'Горе от ума',
+  'Что делать?',
+  'Обломов',
+  'Гроза',
+  'Бесы',
+  'Подросток',
+  'Униженные и оскорбленные',
+  'Записки из подполья',
+  'Игрок',
+  'Бедные люди',
+  'Село Степанчиково',
+  'Дядя Ваня',
+  'Вишневый сад',
+  'Чайка',
+  'Три сестры',
+  'Палата №6',
+  'Дама с собачкой',
+  'Человек в футляре',
+  'Крыжовник',
+  'О любви',
+  'Студент',
+  'Попрыгунья',
+  'Анна на шее',
+  'Ионыч',
+  'Архангельск - город воинской славы',
+  'История России',
+  'Всемирная история',
+  'География мира',
+  'Физика 10 класс',
+  'Химия 11 класс',
+  'Биология человека',
+  'Математический анализ',
+  'Алгебра и геометрия',
+  'Дискретная математика',
+  'Теория вероятностей',
+  'Статистика',
+  'Экономическая теория',
+  'Менеджмент',
+  'Маркетинг основы',
+  'Бухгалтерский учет',
+  'Финансы и кредит',
+  'Правоведение',
+  'Конституционное право',
+  'Гражданское право',
+  'Уголовное право',
+  'Философия',
+  'Логика',
+  'Этика',
+  'Эстетика',
+  'Культурология',
+  'Социология',
+  'Политология',
+  'Психология личности',
+  'Социальная психология',
+  'Педагогика',
+  'Методика преподавания',
+  'Английский язык',
+  'Немецкий язык',
+  'Французский язык',
+  'Китайский язык',
+  'Японский язык',
+  'Литература 19 века',
+  'Современная литература',
+  'Зарубежная литература',
+  'Древняя литература',
+  'Поэзия Серебряного века',
+  'Советская литература',
+  'Детская литература',
+  'Научная фантастика',
+  'Детективная литература',
+  'Приключенческая литература',
+  'Исторические романы',
+  'Любовные романы',
+  'Биографические книги',
+  'Мемуары',
+  'Путевые заметки',
+  'Кулинарные книги',
+  'Книги о здоровье',
+  'Спортивная литература',
+  'Автомобильная литература',
+  'Техническая документация',
+  'Справочники и словари',
 ];
 
 const publishers = [
@@ -140,6 +266,14 @@ const publishers = [
   'Вильямс',
   'ДМК Пресс',
   'Альпина Паблишер',
+  'Манн, Иванов и Фербер',
+  'Феникс',
+  'Рипол Классик',
+  'Захаров',
+  'Молодая гвардия',
+  'Художественная литература',
+  'Детская литература',
+  'Мир книги',
 ];
 
 const genres = [
@@ -158,6 +292,16 @@ const genres = [
   'Справочники',
   'Биографии',
   'История',
+  'Философия',
+  'Психология',
+  'Экономика',
+  'Право',
+  'Медицина',
+  'Естественные науки',
+  'Искусство',
+  'Спорт',
+  'Путешествия',
+  'Кулинария',
 ];
 
 const streets = [
@@ -171,6 +315,16 @@ const streets = [
   'ул. Садовая',
   'пр. Победы',
   'ул. Молодежная',
+  'ул. Комсомольская',
+  'ул. Строителей',
+  'ул. Рабочая',
+  'ул. Набережная',
+  'ул. Лесная',
+  'ул. Полевая',
+  'ул. Дружбы',
+  'ул. Новая',
+  'ул. Первомайская',
+  'ул. Кирова',
 ];
 
 const cities = [
@@ -186,6 +340,14 @@ const cities = [
   'Уфа',
   'Красноярск',
   'Воронеж',
+  'Пермь',
+  'Волгоград',
+  'Краснодар',
+  'Саратов',
+  'Тюмень',
+  'Тольятти',
+  'Ижевск',
+  'Барнаул',
 ];
 
 const statuses = ['Активный', 'Заблокирован', 'Временно отключен'];
@@ -212,26 +374,68 @@ function generatePhoneNumber() {
   )}`;
 }
 
+// Функция для генерации уникальных названий книг
+function generateBookName(index) {
+  if (index < bookNames.length) {
+    return bookNames[index];
+  } else {
+    // Генерируем новые названия, комбинируя существующие
+    const baseNames = [
+      'История',
+      'Основы',
+      'Введение в',
+      'Практическое руководство по',
+      'Теория',
+      'Практика',
+      'Курс',
+      'Учебник по',
+      'Справочник',
+      'Энциклопедия',
+    ];
+    const subjects = [
+      'математике',
+      'физике',
+      'химии',
+      'биологии',
+      'программированию',
+      'экономике',
+      'философии',
+      'истории',
+      'литературе',
+      'искусству',
+      'психологии',
+      'социологии',
+      'политологии',
+      'менеджменту',
+      'маркетингу',
+    ];
+
+    const baseName = getRandomElement(baseNames);
+    const subject = getRandomElement(subjects);
+    return `${baseName} ${subject} ${index - bookNames.length + 1}`;
+  }
+}
+
 async function main() {
   console.log('Процесс удаления...');
 
   // Очищаем существующие данные
-  await prisma.debtM.deleteMany();
-  await prisma.bookM.deleteMany();
-  await prisma.extraditionM.deleteMany();
-  await prisma.readerM.deleteMany();
+  await prisma.debt.deleteMany();
+  await prisma.book.deleteMany();
+  await prisma.extradition.deleteMany();
+  await prisma.reader.deleteMany();
 
   console.log('Начало заполнения базы данных...');
 
-  // Создание читателей (60 записей)
+  // Создание читателей (150 записей)
   console.log('Создание читателей...');
   const readers = [];
-  for (let i = 0; i < 60; i++) {
-    const reader = await prisma.readerM.create({
+  for (let i = 0; i < 150; i++) {
+    const reader = await prisma.reader.create({
       data: {
         lastName: getRandomElement(lastNames),
         firstName: getRandomElement(firstNames),
-        addressStreet: `${getRandomElement(streets)}, д. ${getRandomInt(1, 100)}`,
+        addressStreet: `${getRandomElement(streets)}, д. ${getRandomInt(1, 200)}`,
         adressCity: getRandomElement(cities),
         phoneNumber: generatePhoneNumber(),
         registratedDate: getRandomDate(new Date(2020, 0, 1), new Date(2024, 11, 31)),
@@ -242,42 +446,46 @@ async function main() {
     readers.push(reader);
   }
 
-  // Создание книг (80 записей)
+  // Создание книг (150 записей)
   console.log('Создание книг...');
   const books = [];
-  for (let i = 0; i < 80; i++) {
-    const book = await prisma.bookM.create({
+  for (let i = 0; i < 150; i++) {
+    const book = await prisma.book.create({
       data: {
-        name: getRandomElement(bookNames),
+        name: generateBookName(i),
         trackingNumber: 1000 + i,
-        publicationCount: getRandomInt(1000, 50000),
+        publicationCount: getRandomInt(500, 100000),
         publisher: getRandomElement(publishers),
-        publishedYear: getRandomInt(1950, 2024),
-        pagesCount: getRandomInt(50, 800),
+        publishedYear: getRandomInt(1945, 2024),
+        pagesCount: getRandomInt(30, 1200),
         genere: getRandomElement(genres),
       },
     });
     books.push(book);
   }
 
-  // Создание выдач (50 записей)
+  // Создание выдач (150 записей)
   console.log('Создание выдач...');
   const extraditions = [];
   const usedBooks = new Set();
 
-  for (let i = 0; i < 50; i++) {
-    // Выбираем книгу, которая еще не была выдана
+  for (let i = 0; i < 150; i++) {
+    // Выбираем книгу, которая еще не была выдана, или используем случайную если все уже выданы
     let book;
-    do {
+    if (usedBooks.size < books.length) {
+      do {
+        book = getRandomElement(books);
+      } while (usedBooks.has(book.id));
+      usedBooks.add(book.id);
+    } else {
+      // Если все книги уже выданы, позволяем повторные выдачи
       book = getRandomElement(books);
-    } while (usedBooks.has(book.id));
+    }
 
-    usedBooks.add(book.id);
+    const extraditionDate = getRandomDate(new Date(2022, 0, 1), new Date(2024, 11, 31));
+    const shouldHaveRefund = Math.random() > 0.25; // 75% книг возвращены
 
-    const extraditionDate = getRandomDate(new Date(2023, 0, 1), new Date(2024, 11, 31));
-    const shouldHaveRefund = Math.random() > 0.3; // 70% книг возвращены
-
-    const extradition = await prisma.extraditionM.create({
+    const extradition = await prisma.extradition.create({
       data: {
         extraditionDate: extraditionDate,
         refundDate: shouldHaveRefund
@@ -290,15 +498,16 @@ async function main() {
     extraditions.push(extradition);
   }
 
-  // Создание долгов (15 записей для невозвращенных книг)
+  // Создание долгов (для невозвращенных книг, максимум 150)
   console.log('Создание долгов...');
   const overdue = extraditions.filter(ext => !ext.refundDate);
+  const debtCount = Math.min(150, overdue.length);
 
-  for (let i = 0; i < Math.min(15, overdue.length); i++) {
+  for (let i = 0; i < debtCount; i++) {
     const extradition = overdue[i];
     const debtDate = getRandomDate(new Date(extradition.extraditionDate), new Date(2025, 5, 17));
 
-    await prisma.debtM.create({
+    await prisma.debt.create({
       data: {
         date: debtDate,
         extraditionId: extradition.id,
@@ -309,18 +518,18 @@ async function main() {
   console.log('Заполнение базы данных завершено!');
 
   // Выводим статистику
-  const readerCount = await prisma.readerM.count();
-  const bookCount = await prisma.bookM.count();
-  const extraditionCount = await prisma.extraditionM.count();
-  const debtCount = await prisma.debtM.count();
+  const readerCount = await prisma.reader.count();
+  const bookCount = await prisma.book.count();
+  const extraditionCount = await prisma.extradition.count();
+  const debtCountFinal = await prisma.debt.count();
 
   console.log(`Создано:`);
   console.log(`- Читателей: ${readerCount}`);
   console.log(`- Книг: ${bookCount}`);
   console.log(`- Выдач: ${extraditionCount}`);
-  console.log(`- Долгов: ${debtCount}`);
+  console.log(`- Долгов: ${debtCountFinal}`);
   console.log(
-    `Общее количество записей: ${readerCount + bookCount + extraditionCount + debtCount}`,
+    `Общее количество записей: ${readerCount + bookCount + extraditionCount + debtCountFinal}`,
   );
 }
 
