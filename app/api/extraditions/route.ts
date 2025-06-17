@@ -4,11 +4,10 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export const GET = async (request: NextRequest) => {
   const searchParams = request.nextUrl.searchParams;
-  
+
   const refundDate = searchParams.get('rf');
   const bookId = searchParams.get('b');
   const readerId = searchParams.get('r');
-  
 
   const where: Prisma.ExtraditionWhereInput = {};
 
@@ -17,10 +16,8 @@ export const GET = async (request: NextRequest) => {
   }
 
   if (bookId) {
-    where.books = {
-      some: {
-        id: bookId,
-      },
+    where.book = {
+      id: bookId,
     };
   }
 
@@ -35,7 +32,7 @@ export const GET = async (request: NextRequest) => {
       extraditionDate: true,
       refundDate: true,
       debt: true,
-      books: true,
+      book: true,
       reader: true,
       readerId: true,
     },
@@ -52,7 +49,7 @@ export const POST = async (request: NextRequest) => {
       extraditionDate: requestData.extraditionDate,
       refundDate: requestData.refundDate,
       readerId: requestData.readerId,
-      books: {connect: requestData.books},
+      book: { connect: requestData.books },
     },
   });
 

@@ -5,7 +5,7 @@ export interface Extradition {
   id: string;
   extraditionDate: string;
   refundDate: string;
-  books: Book[];
+  book: Book;
   readerId: string | null;
   reader?: Reader;
 }

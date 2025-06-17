@@ -1,1272 +1,334 @@
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
-// Функция для форматирования даты в строку
-function formatDate(date) {
+// Массивы данных для генерации
+const lastNames = [
+  'Иванов',
+  'Петров',
+  'Сидоров',
+  'Смирнов',
+  'Кузнецов',
+  'Попов',
+  'Васильев',
+  'Соколов',
+  'Михайлов',
+  'Новиков',
+  'Федоров',
+  'Морозов',
+  'Волков',
+  'Алексеев',
+  'Лебедев',
+  'Семенов',
+  'Егоров',
+  'Павлов',
+  'Козлов',
+  'Степанов',
+  'Николаев',
+  'Орлов',
+  'Андреев',
+  'Макаров',
+  'Никитин',
+  'Захаров',
+  'Зайцев',
+  'Соловьев',
+  'Борисов',
+  'Яковлев',
+  'Григорьев',
+  'Романов',
+];
+
+const firstNames = [
+  'Александр',
+  'Алексей',
+  'Андрей',
+  'Антон',
+  'Артем',
+  'Борис',
+  'Вадим',
+  'Валентин',
+  'Василий',
+  'Виктор',
+  'Владимир',
+  'Вячеслав',
+  'Георгий',
+  'Дмитрий',
+  'Евгений',
+  'Иван',
+  'Игорь',
+  'Максим',
+  'Михаил',
+  'Николай',
+  'Олег',
+  'Павел',
+  'Петр',
+  'Роман',
+  'Сергей',
+  'Анна',
+  'Елена',
+  'Мария',
+  'Наталья',
+  'Ольга',
+  'Светлана',
+  'Татьяна',
+  'Юлия',
+];
+
+const bookNames = [
+  'Война и мир',
+  'Преступление и наказание',
+  'Анна Каренина',
+  'Мастер и Маргарита',
+  'Евгений Онегин',
+  'Мертвые души',
+  'Отцы и дети',
+  'Герой нашего времени',
+  'Идиот',
+  'Братья Карамазовы',
+  'Доктор Живаго',
+  'Тихий Дон',
+  'Собачье сердце',
+  'Белая гвардия',
+  'Двенадцать стульев',
+  'Золотой теленок',
+  'Человек-амфибия',
+  'Алые паруса',
+  'Дети капитана Гранта',
+  'Граф Монте-Кристо',
+  'Три мушкетера',
+  'Гарри Поттер и философский камень',
+  'Властелин колец',
+  'Хоббит',
+  'Дюна',
+  'Автостопом по галактике',
+  '1984',
+  'О дивный новый мир',
+  'Над пропастью во ржи',
+  'Убить пересмешника',
+  'Великий Гэтсби',
+  'Гордость и предубеждение',
+  'Джейн Эйр',
+  'Грозовой перевал',
+  'Граф Дракула',
+  'Франкенштейн',
+  'Остров сокровищ',
+  'Алиса в стране чудес',
+  'Шерлок Холмс',
+  'Агата Кристи',
+  'Код да Винчи',
+  'Основы программирования',
+  'JavaScript для начинающих',
+  'Python в действии',
+  'Изучаем React',
+  'Node.js руководство',
+  'Базы данных MySQL',
+  'Linux системы',
+  'Веб-дизайн основы',
+  'Машинное обучение',
+  'Искусственный интеллект',
+];
+
+const publishers = [
+  'АСТ',
+  'Эксмо',
+  'Росмэн',
+  'Дрофа',
+  'Просвещение',
+  'Азбука',
+  'Питер',
+  'БХВ-Петербург',
+  "О'Рейли",
+  'Вильямс',
+  'ДМК Пресс',
+  'Альпина Паблишер',
+];
+
+const genres = [
+  'Художественная литература',
+  'Классика',
+  'Детективы',
+  'Фантастика',
+  'Фэнтези',
+  'Романы',
+  'Поэзия',
+  'Драматургия',
+  'Техническая литература',
+  'Программирование',
+  'Научная литература',
+  'Учебники',
+  'Справочники',
+  'Биографии',
+  'История',
+];
+
+const streets = [
+  'ул. Ленина',
+  'ул. Пушкина',
+  'ул. Гагарина',
+  'ул. Советская',
+  'ул. Мира',
+  'ул. Центральная',
+  'ул. Школьная',
+  'ул. Садовая',
+  'пр. Победы',
+  'ул. Молодежная',
+];
+
+const cities = [
+  'Москва',
+  'Санкт-Петербург',
+  'Казань',
+  'Нижний Новгород',
+  'Екатеринбург',
+  'Самара',
+  'Омск',
+  'Челябинск',
+  'Ростов-на-Дону',
+  'Уфа',
+  'Красноярск',
+  'Воронеж',
+];
+
+const statuses = ['Активный', 'Заблокирован', 'Временно отключен'];
+const categories = ['Студент', 'Преподаватель', 'Пенсионер', 'Обычный читатель', 'VIP'];
+
+// Вспомогательные функции
+function getRandomElement(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getRandomDate(start, end) {
+  const date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
   return date.toISOString().split('T')[0];
 }
 
-// Подготовленные данные для читателей
-const readersData = [
-  {
-    lastName: 'Иванов',
-    firstName: 'Александр',
-    street: 'ул. Ленина, 15',
-    city: 'Москва',
-    phone: '+79161234567',
-    date: '2023-01-15',
-    status: 'Активный',
-    category: 'Работающий',
-  },
-  {
-    lastName: 'Петрова',
-    firstName: 'Мария',
-    street: 'пр. Мира, 42',
-    city: 'Санкт-Петербург',
-    phone: '+79162345678',
-    date: '2023-02-20',
-    status: 'Активный',
-    category: 'Студент',
-  },
-  {
-    lastName: 'Сидоров',
-    firstName: 'Дмитрий',
-    street: 'ул. Победы, 8',
-    city: 'Новосибирск',
-    phone: '+79163456789',
-    date: '2023-03-10',
-    status: 'Активный',
-    category: 'Школьник',
-  },
-  {
-    lastName: 'Козлова',
-    firstName: 'Елена',
-    street: 'ул. Гагарина, 23',
-    city: 'Екатеринбург',
-    phone: '+79164567890',
-    date: '2023-04-05',
-    status: 'Активный',
-    category: 'Пенсионер',
-  },
-  {
-    lastName: 'Морозов',
-    firstName: 'Игорь',
-    street: 'ул. Советская, 67',
-    city: 'Нижний Новгород',
-    phone: '+79165678901',
-    date: '2023-05-12',
-    status: 'Заблокированный',
-    category: 'Безработный',
-  },
-  {
-    lastName: 'Федорова',
-    firstName: 'Анна',
-    street: 'б-р Победы, 134',
-    city: 'Казань',
-    phone: '+79166789012',
-    date: '2023-06-18',
-    status: 'Активный',
-    category: 'Работающий',
-  },
-  {
-    lastName: 'Волков',
-    firstName: 'Сергей',
-    street: 'ул. Пушкина, 91',
-    city: 'Челябинск',
-    phone: '+79167890123',
-    date: '2023-07-25',
-    status: 'Активный',
-    category: 'Студент',
-  },
-  {
-    lastName: 'Соколова',
-    firstName: 'Ольга',
-    street: 'ул. Кирова, 56',
-    city: 'Омск',
-    phone: '+79168901234',
-    date: '2023-08-30',
-    status: 'Временно приостановлен',
-    category: 'Работающий',
-  },
-  {
-    lastName: 'Лебедев',
-    firstName: 'Павел',
-    street: 'ул. Молодежная, 12',
-    city: 'Самара',
-    phone: '+79169012345',
-    date: '2023-09-14',
-    status: 'Активный',
-    category: 'Школьник',
-  },
-  {
-    lastName: 'Новикова',
-    firstName: 'Татьяна',
-    street: 'ул. Центральная, 78',
-    city: 'Ростов-на-Дону',
-    phone: '+79160123456',
-    date: '2023-10-08',
-    status: 'Активный',
-    category: 'Пенсионер',
-  },
-  {
-    lastName: 'Смирнов',
-    firstName: 'Алексей',
-    street: 'ул. Школьная, 34',
-    city: 'Уфа',
-    phone: '+79151234567',
-    date: '2023-11-22',
-    status: 'Активный',
-    category: 'Работающий',
-  },
-  {
-    lastName: 'Васильева',
-    firstName: 'Светлана',
-    street: 'пер. Садовый, 19',
-    city: 'Красноярск',
-    phone: '+79152345678',
-    date: '2023-12-03',
-    status: 'Активный',
-    category: 'Студент',
-  },
-  {
-    lastName: 'Попов',
-    firstName: 'Михаил',
-    street: 'ул. Комсомольская, 45',
-    city: 'Воронеж',
-    phone: '+79153456789',
-    date: '2024-01-17',
-    status: 'Активный',
-    category: 'Работающий',
-  },
-  {
-    lastName: 'Николаева',
-    firstName: 'Ирина',
-    street: 'ул. Мира, 87',
-    city: 'Пермь',
-    phone: '+79154567890',
-    date: '2024-02-28',
-    status: 'Заблокированный',
-    category: 'Безработный',
-  },
-  {
-    lastName: 'Орлов',
-    firstName: 'Владимир',
-    street: 'ул. Ленина, 123',
-    city: 'Волгоград',
-    phone: '+79155678901',
-    date: '2024-03-15',
-    status: 'Активный',
-    category: 'Пенсионер',
-  },
-  {
-    lastName: 'Захарова',
-    firstName: 'Наталья',
-    street: 'пр. Ленина, 67',
-    city: 'Краснодар',
-    phone: '+79156789012',
-    date: '2024-04-20',
-    status: 'Активный',
-    category: 'Работающий',
-  },
-  {
-    lastName: 'Степанов',
-    firstName: 'Андрей',
-    street: 'ул. Победы, 234',
-    city: 'Тюмень',
-    phone: '+79157890123',
-    date: '2024-05-10',
-    status: 'Активный',
-    category: 'Студент',
-  },
-  {
-    lastName: 'Павлова',
-    firstName: 'Юлия',
-    street: 'ул. Гагарина, 156',
-    city: 'Саратов',
-    phone: '+79158901234',
-    date: '2024-06-01',
-    status: 'Временно приостановлен',
-    category: 'Школьник',
-  },
-  {
-    lastName: 'Макаров',
-    firstName: 'Роман',
-    street: 'ул. Советская, 89',
-    city: 'Тольятти',
-    phone: '+79159012345',
-    date: '2022-07-12',
-    status: 'Активный',
-    category: 'Работающий',
-  },
-  {
-    lastName: 'Егорова',
-    firstName: 'Вера',
-    street: 'б-р Мира, 178',
-    city: 'Ижевск',
-    phone: '+79140123456',
-    date: '2022-08-25',
-    status: 'Активный',
-    category: 'Пенсионер',
-  },
-  {
-    lastName: 'Зайцев',
-    firstName: 'Константин',
-    street: 'ул. Кирова, 91',
-    city: 'Барнаул',
-    phone: '+79141234567',
-    date: '2022-09-30',
-    status: 'Активный',
-    category: 'Работающий',
-  },
-  {
-    lastName: 'Соловьева',
-    firstName: 'Галина',
-    street: 'ул. Пушкина, 45',
-    city: 'Ульяновск',
-    phone: '+79142345678',
-    date: '2022-10-15',
-    status: 'Заблокированный',
-    category: 'Безработный',
-  },
-  {
-    lastName: 'Борисов',
-    firstName: 'Евгений',
-    street: 'ул. Молодежная, 123',
-    city: 'Иркутск',
-    phone: '+79143456789',
-    date: '2022-11-08',
-    status: 'Активный',
-    category: 'Студент',
-  },
-  {
-    lastName: 'Яковлева',
-    firstName: 'Людмила',
-    street: 'ул. Центральная, 67',
-    city: 'Хабаровск',
-    phone: '+79144567890',
-    date: '2022-12-20',
-    status: 'Активный',
-    category: 'Работающий',
-  },
-  {
-    lastName: 'Никитин',
-    firstName: 'Артем',
-    street: 'пер. Школьный, 34',
-    city: 'Владивосток',
-    phone: '+79145678901',
-    date: '2021-01-14',
-    status: 'Активный',
-    category: 'Школьник',
-  },
-  {
-    lastName: 'Семенова',
-    firstName: 'Екатерина',
-    street: 'ул. Комсомольская, 178',
-    city: 'Томск',
-    phone: '+79146789012',
-    date: '2021-02-18',
-    status: 'Временно приостановлен',
-    category: 'Пенсионер',
-  },
-  {
-    lastName: 'Михайлов',
-    firstName: 'Виктор',
-    street: 'ул. Мира, 245',
-    city: 'Кемерово',
-    phone: '+79147890123',
-    date: '2021-03-25',
-    status: 'Активный',
-    category: 'Работающий',
-  },
-  {
-    lastName: 'Алексеева',
-    firstName: 'Инна',
-    street: 'пр. Победы, 89',
-    city: 'Новокузнецк',
-    phone: '+79148901234',
-    date: '2021-04-12',
-    status: 'Активный',
-    category: 'Студент',
-  },
-  {
-    lastName: 'Кузнецов',
-    firstName: 'Олег',
-    street: 'ул. Ленина, 167',
-    city: 'Рязань',
-    phone: '+79149012345',
-    date: '2021-05-30',
-    status: 'Активный',
-    category: 'Работающий',
-  },
-  {
-    lastName: 'Романова',
-    firstName: 'Валентина',
-    street: 'ул. Гагарина, 234',
-    city: 'Пенза',
-    phone: '+79130123456',
-    date: '2021-06-22',
-    status: 'Заблокированный',
-    category: 'Безработный',
-  },
-  {
-    lastName: 'Белов',
-    firstName: 'Станислав',
-    street: 'ул. Советская, 112',
-    city: 'Липецк',
-    phone: '+79131234567',
-    date: '2021-07-15',
-    status: 'Активный',
-    category: 'Пенсионер',
-  },
-  {
-    lastName: 'Чернова',
-    firstName: 'Марина',
-    street: 'б-р Мира, 78',
-    city: 'Тула',
-    phone: '+79132345678',
-    date: '2021-08-28',
-    status: 'Активный',
-    category: 'Работающий',
-  },
-  {
-    lastName: 'Зеленов',
-    firstName: 'Максим',
-    street: 'ул. Кирова, 145',
-    city: 'Киров',
-    phone: '+79133456789',
-    date: '2021-09-10',
-    status: 'Активный',
-    category: 'Студент',
-  },
-  {
-    lastName: 'Синицына',
-    firstName: 'Лариса',
-    street: 'ул. Пушкина, 223',
-    city: 'Чебоксары',
-    phone: '+79134567890',
-    date: '2021-10-05',
-    status: 'Временно приостановлен',
-    category: 'Школьник',
-  },
-  {
-    lastName: 'Красиков',
-    firstName: 'Николай',
-    street: 'ул. Молодежная, 67',
-    city: 'Калининград',
-    phone: '+79135678901',
-    date: '2021-11-18',
-    status: 'Активный',
-    category: 'Работающий',
-  },
-  {
-    lastName: 'Золотова',
-    firstName: 'Жанна',
-    street: 'ул. Центральная, 189',
-    city: 'Брянск',
-    phone: '+79136789012',
-    date: '2021-12-02',
-    status: 'Активный',
-    category: 'Пенсионер',
-  },
-  {
-    lastName: 'Серебряков',
-    firstName: 'Денис',
-    street: 'пер. Садовый, 45',
-    city: 'Иваново',
-    phone: '+79137890123',
-    date: '2020-01-20',
-    status: 'Активный',
-    category: 'Работающий',
-  },
-  {
-    lastName: 'Медведева',
-    firstName: 'Алла',
-    street: 'ул. Комсомольская, 134',
-    city: 'Магнитогорск',
-    phone: '+79138901234',
-    date: '2020-02-14',
-    status: 'Заблокированный',
-    category: 'Безработный',
-  },
-  {
-    lastName: 'Лисицын',
-    firstName: 'Вадим',
-    street: 'ул. Мира, 78',
-    city: 'Курск',
-    phone: '+79139012345',
-    date: '2020-03-08',
-    status: 'Активный',
-    category: 'Студент',
-  },
-  {
-    lastName: 'Воробьева',
-    firstName: 'Оксана',
-    street: 'пр. Ленина, 201',
-    city: 'Тверь',
-    phone: '+79120123456',
-    date: '2020-04-25',
-    status: 'Активный',
-    category: 'Работающий',
-  },
-  {
-    lastName: 'Журавлев',
-    firstName: 'Леонид',
-    street: 'ул. Победы, 156',
-    city: 'Ставрополь',
-    phone: '+79121234567',
-    date: '2020-05-17',
-    status: 'Активный',
-    category: 'Школьник',
-  },
-  {
-    lastName: 'Синяева',
-    firstName: 'Раиса',
-    street: 'ул. Гагарина, 89',
-    city: 'Белгород',
-    phone: '+79122345678',
-    date: '2020-06-30',
-    status: 'Временно приостановлен',
-    category: 'Пенсионер',
-  },
-  {
-    lastName: 'Голубев',
-    firstName: 'Григорий',
-    street: 'ул. Советская, 267',
-    city: 'Орел',
-    phone: '+79123456789',
-    date: '2020-07-12',
-    status: 'Активный',
-    category: 'Работающий',
-  },
-  {
-    lastName: 'Фиолетова',
-    firstName: 'Надежда',
-    street: 'б-р Победы, 112',
-    city: 'Владимир',
-    phone: '+79124567890',
-    date: '2020-08-05',
-    status: 'Активный',
-    category: 'Студент',
-  },
-  {
-    lastName: 'Коричневый',
-    firstName: 'Федор',
-    street: 'ул. Кирова, 234',
-    city: 'Калуга',
-    phone: '+79125678901',
-    date: '2020-09-19',
-    status: 'Активный',
-    category: 'Работающий',
-  },
-  {
-    lastName: 'Розова',
-    firstName: 'Зинаида',
-    street: 'ул. Пушкина, 67',
-    city: 'Смоленск',
-    phone: '+79126789012',
-    date: '2020-10-28',
-    status: 'Заблокированный',
-    category: 'Безработный',
-  },
-  {
-    lastName: 'Оранжевый',
-    firstName: 'Кирилл',
-    street: 'ул. Молодежная, 145',
-    city: 'Мурманск',
-    phone: '+79127890123',
-    date: '2020-11-15',
-    status: 'Активный',
-    category: 'Пенсионер',
-  },
-  {
-    lastName: 'Сиреневая',
-    firstName: 'Тамара',
-    street: 'ул. Центральная, 223',
-    city: 'Вологда',
-    phone: '+79128901234',
-    date: '2020-12-01',
-    status: 'Активный',
-    category: 'Работающий',
-  },
-  {
-    lastName: 'Бирюзов',
-    firstName: 'Георгий',
-    street: 'пер. Школьный, 89',
-    city: 'Архангельск',
-    phone: '+79129012345',
-    date: '2019-05-10',
-    status: 'Активный',
-    category: 'Студент',
-  },
-  {
-    lastName: 'Малиновская',
-    firstName: 'Клавдия',
-    street: 'ул. Комсомольская, 167',
-    city: 'Сочи',
-    phone: '+79110123456',
-    date: '2019-08-22',
-    status: 'Временно приостановлен',
-    category: 'Школьник',
-  },
-];
-
-// Подготовленные данные для книг (160 штук)
-const booksData = [
-  { name: 'Война и мир', publisher: 'Эксмо', year: 1869, pages: 1274, genre: 'Роман' },
-  { name: 'Преступление и наказание', publisher: 'АСТ', year: 1866, pages: 671, genre: 'Роман' },
-  { name: 'Анна Каренина', publisher: 'Азбука', year: 1877, pages: 864, genre: 'Роман' },
-  { name: 'Мастер и Маргарита', publisher: 'Эксмо', year: 1967, pages: 480, genre: 'Роман' },
-  {
-    name: 'Евгений Онегин',
-    publisher: 'Детская литература',
-    year: 1833,
-    pages: 320,
-    genre: 'Роман в стихах',
-  },
-  { name: 'Отцы и дети', publisher: 'АСТ', year: 1862, pages: 256, genre: 'Роман' },
-  {
-    name: 'Герой нашего времени',
-    publisher: 'Художественная литература',
-    year: 1840,
-    pages: 224,
-    genre: 'Роман',
-  },
-  { name: 'Идиот', publisher: 'Эксмо', year: 1869, pages: 640, genre: 'Роман' },
-  { name: 'Братья Карамазовы', publisher: 'АСТ', year: 1880, pages: 976, genre: 'Роман' },
-  { name: 'Доктор Живаго', publisher: 'Азбука', year: 1957, pages: 592, genre: 'Роман' },
-  {
-    name: 'Тихий Дон',
-    publisher: 'Советский писатель',
-    year: 1940,
-    pages: 1312,
-    genre: 'Роман-эпопея',
-  },
-  { name: 'Белая гвардия', publisher: 'Эксмо', year: 1925, pages: 352, genre: 'Роман' },
-  { name: 'Собачье сердце', publisher: 'АСТ', year: 1925, pages: 128, genre: 'Повесть' },
-  { name: 'Дни Турбиных', publisher: 'Искусство', year: 1926, pages: 192, genre: 'Драма' },
-  { name: 'Мы', publisher: 'Эксмо', year: 1924, pages: 224, genre: 'Роман-антиутопия' },
-  { name: '12 стульев', publisher: 'АСТ', year: 1928, pages: 416, genre: 'Сатирический роман' },
-  {
-    name: 'Золотой теленок',
-    publisher: 'Эксмо',
-    year: 1931,
-    pages: 448,
-    genre: 'Сатирический роман',
-  },
-  {
-    name: 'Остров сокровищ',
-    publisher: 'Детская литература',
-    year: 1883,
-    pages: 320,
-    genre: 'Приключенческий роман',
-  },
-  {
-    name: 'Робинзон Крузо',
-    publisher: 'Росмэн',
-    year: 1719,
-    pages: 368,
-    genre: 'Приключенческий роман',
-  },
-  {
-    name: 'Алиса в стране чудес',
-    publisher: 'Детская литература',
-    year: 1865,
-    pages: 192,
-    genre: 'Сказка',
-  },
-  {
-    name: 'Гарри Поттер и философский камень',
-    publisher: 'Росмэн',
-    year: 1997,
-    pages: 432,
-    genre: 'Фэнтези',
-  },
-  { name: 'Властелин колец', publisher: 'АСТ', year: 1954, pages: 1216, genre: 'Фэнтези' },
-  { name: 'Хоббит', publisher: 'АСТ', year: 1937, pages: 288, genre: 'Фэнтези' },
-  { name: '1984', publisher: 'Эксмо', year: 1949, pages: 352, genre: 'Антиутопия' },
-  { name: 'О дивный новый мир', publisher: 'АСТ', year: 1932, pages: 288, genre: 'Антиутопия' },
-  {
-    name: '451 градус по Фаренгейту',
-    publisher: 'Эксмо',
-    year: 1953,
-    pages: 256,
-    genre: 'Антиутопия',
-  },
-  { name: 'Убить пересмешника', publisher: 'АСТ', year: 1960, pages: 416, genre: 'Роман' },
-  { name: 'Гордость и предубеждение', publisher: 'Азбука', year: 1813, pages: 416, genre: 'Роман' },
-  { name: 'Джейн Эйр', publisher: 'Эксмо', year: 1847, pages: 512, genre: 'Роман' },
-  { name: 'Грозовой перевал', publisher: 'АСТ', year: 1847, pages: 384, genre: 'Роман' },
-  { name: 'Великий Гэтсби', publisher: 'Азбука', year: 1925, pages: 256, genre: 'Роман' },
-  { name: 'Над пропастью во ржи', publisher: 'Эксмо', year: 1951, pages: 288, genre: 'Роман' },
-  {
-    name: 'Маленький принц',
-    publisher: 'Детская литература',
-    year: 1943,
-    pages: 96,
-    genre: 'Философская сказка',
-  },
-  { name: 'Алхимик', publisher: 'АСТ', year: 1988, pages: 224, genre: 'Философский роман' },
-  {
-    name: 'Сто лет одиночества',
-    publisher: 'Эксмо',
-    year: 1967,
-    pages: 448,
-    genre: 'Магический реализм',
-  },
-  { name: 'Любовь во время чумы', publisher: 'АСТ', year: 1985, pages: 512, genre: 'Роман' },
-  { name: 'Дон Кихот', publisher: 'Азбука', year: 1605, pages: 1056, genre: 'Роман' },
-  { name: 'Гамлет', publisher: 'Эксмо', year: 1603, pages: 224, genre: 'Трагедия' },
-  { name: 'Король Лир', publisher: 'АСТ', year: 1606, pages: 192, genre: 'Трагедия' },
-  { name: 'Макбет', publisher: 'Азбука', year: 1606, pages: 160, genre: 'Трагедия' },
-  {
-    name: 'Ромео и Джульетта',
-    publisher: 'Детская литература',
-    year: 1597,
-    pages: 128,
-    genre: 'Трагедия',
-  },
-  {
-    name: 'Илиада',
-    publisher: 'Художественная литература',
-    year: -750,
-    pages: 736,
-    genre: 'Эпическая поэма',
-  },
-  {
-    name: 'Одиссея',
-    publisher: 'Художественная литература',
-    year: -725,
-    pages: 512,
-    genre: 'Эпическая поэма',
-  },
-  { name: 'Божественная комедия', publisher: 'АСТ', year: 1320, pages: 640, genre: 'Поэма' },
-  { name: 'Фауст', publisher: 'Эксмо', year: 1808, pages: 512, genre: 'Трагедия' },
-  { name: 'Моби Дик', publisher: 'АСТ', year: 1851, pages: 720, genre: 'Роман' },
-  {
-    name: 'Приключения Тома Сойера',
-    publisher: 'Детская литература',
-    year: 1876,
-    pages: 320,
-    genre: 'Приключенческий роман',
-  },
-  {
-    name: 'Приключения Гекльберри Финна',
-    publisher: 'Детская литература',
-    year: 1884,
-    pages: 352,
-    genre: 'Приключенческий роман',
-  },
-  { name: 'Дракула', publisher: 'Эксмо', year: 1897, pages: 448, genre: 'Готический роман' },
-  { name: 'Франкенштейн', publisher: 'АСТ', year: 1818, pages: 352, genre: 'Готический роман' },
-  {
-    name: 'Странная история доктора Джекила и мистера Хайда',
-    publisher: 'Эксмо',
-    year: 1886,
-    pages: 128,
-    genre: 'Повесть',
-  },
-  {
-    name: 'Граф Монте-Кристо',
-    publisher: 'АСТ',
-    year: 1844,
-    pages: 1248,
-    genre: 'Приключенческий роман',
-  },
-  {
-    name: 'Три мушкетера',
-    publisher: 'Детская литература',
-    year: 1844,
-    pages: 672,
-    genre: 'Приключенческий роман',
-  },
-  {
-    name: 'Собор Парижской Богоматери',
-    publisher: 'Эксмо',
-    year: 1831,
-    pages: 640,
-    genre: 'Роман',
-  },
-  { name: 'Отверженные', publisher: 'АСТ', year: 1862, pages: 1440, genre: 'Роман' },
-  { name: 'Красное и черное', publisher: 'Азбука', year: 1830, pages: 528, genre: 'Роман' },
-  { name: 'Мадам Бовари', publisher: 'Эксмо', year: 1857, pages: 384, genre: 'Роман' },
-  { name: 'Портрет Дориана Грея', publisher: 'АСТ', year: 1890, pages: 352, genre: 'Роман' },
-  { name: 'Собака Баскервилей', publisher: 'Эксмо', year: 1902, pages: 256, genre: 'Детектив' },
-  { name: 'Этюд в багровых тонах', publisher: 'АСТ', year: 1887, pages: 192, genre: 'Детектив' },
-  { name: 'Десять негритят', publisher: 'Эксмо', year: 1939, pages: 320, genre: 'Детектив' },
-  {
-    name: 'Убийство в Восточном экспрессе',
-    publisher: 'АСТ',
-    year: 1934,
-    pages: 288,
-    genre: 'Детектив',
-  },
-  {
-    name: 'Человек-невидимка',
-    publisher: 'Детская литература',
-    year: 1897,
-    pages: 224,
-    genre: 'Научная фантастика',
-  },
-  { name: 'Машина времени', publisher: 'АСТ', year: 1895, pages: 128, genre: 'Научная фантастика' },
-  { name: 'Война миров', publisher: 'Эксмо', year: 1898, pages: 256, genre: 'Научная фантастика' },
-  {
-    name: '20000 лье под водой',
-    publisher: 'Детская литература',
-    year: 1870,
-    pages: 480,
-    genre: 'Научная фантастика',
-  },
-  {
-    name: 'Таинственный остров',
-    publisher: 'Детская литература',
-    year: 1874,
-    pages: 672,
-    genre: 'Приключенческий роман',
-  },
-  {
-    name: 'Вокруг света за 80 дней',
-    publisher: 'Детская литература',
-    year: 1873,
-    pages: 320,
-    genre: 'Приключенческий роман',
-  },
-  {
-    name: 'Путешествие к центру Земли',
-    publisher: 'Детская литература',
-    year: 1864,
-    pages: 352,
-    genre: 'Научная фантастика',
-  },
-  { name: 'Айвенго', publisher: 'АСТ', year: 1819, pages: 544, genre: 'Исторический роман' },
-  {
-    name: 'Квентин Дорвард',
-    publisher: 'Эксмо',
-    year: 1823,
-    pages: 480,
-    genre: 'Исторический роман',
-  },
-  {
-    name: 'Дети капитана Гранта',
-    publisher: 'Детская литература',
-    year: 1868,
-    pages: 736,
-    genre: 'Приключенческий роман',
-  },
-  {
-    name: 'Пятнадцатилетний капитан',
-    publisher: 'Детская литература',
-    year: 1878,
-    pages: 384,
-    genre: 'Приключенческий роман',
-  },
-  {
-    name: 'Робур-завоеватель',
-    publisher: 'АСТ',
-    year: 1886,
-    pages: 256,
-    genre: 'Научная фантастика',
-  },
-  {
-    name: 'Путешествия Гулливера',
-    publisher: 'Детская литература',
-    year: 1726,
-    pages: 352,
-    genre: 'Сатирический роман',
-  },
-  { name: 'Кандид', publisher: 'Азбука', year: 1759, pages: 128, genre: 'Философская повесть' },
-  {
-    name: 'Эмиль, или О воспитании',
-    publisher: 'Просвещение',
-    year: 1762,
-    pages: 896,
-    genre: 'Педагогический трактат',
-  },
-  {
-    name: 'Общественный договор',
-    publisher: 'Наука',
-    year: 1762,
-    pages: 416,
-    genre: 'Политическая философия',
-  },
-  { name: 'Левиафан', publisher: 'Мысль', year: 1651, pages: 736, genre: 'Политическая философия' },
-  { name: 'Государь', publisher: 'АСТ', year: 1532, pages: 192, genre: 'Политический трактат' },
-  {
-    name: 'Капитал',
-    publisher: 'Политиздат',
-    year: 1867,
-    pages: 1200,
-    genre: 'Экономическая теория',
-  },
-  {
-    name: 'Происхождение видов',
-    publisher: 'Наука',
-    year: 1859,
-    pages: 528,
-    genre: 'Научный труд',
-  },
-  {
-    name: 'О духе законов',
-    publisher: 'Мысль',
-    year: 1748,
-    pages: 672,
-    genre: 'Политическая философия',
-  },
-  { name: 'Утопия', publisher: 'АСТ', year: 1516, pages: 256, genre: 'Утопия' },
-  { name: 'Новая Атлантида', publisher: 'Мысль', year: 1627, pages: 128, genre: 'Утопия' },
-  { name: 'Город Солнца', publisher: 'АСТ', year: 1623, pages: 96, genre: 'Утопия' },
-  {
-    name: 'Что делать?',
-    publisher: 'Художественная литература',
-    year: 1863,
-    pages: 448,
-    genre: 'Роман',
-  },
-  {
-    name: 'Кто виноват?',
-    publisher: 'Художественная литература',
-    year: 1846,
-    pages: 320,
-    genre: 'Роман',
-  },
-  { name: 'Дворянское гнездо', publisher: 'АСТ', year: 1859, pages: 256, genre: 'Роман' },
-  { name: 'Накануне', publisher: 'Эксмо', year: 1860, pages: 224, genre: 'Роман' },
-  { name: 'Дым', publisher: 'АСТ', year: 1867, pages: 288, genre: 'Роман' },
-  { name: 'Новь', publisher: 'Художественная литература', year: 1877, pages: 352, genre: 'Роман' },
-  {
-    name: 'Записки охотника',
-    publisher: 'Детская литература',
-    year: 1852,
-    pages: 384,
-    genre: 'Рассказы',
-  },
-  { name: 'Первая любовь', publisher: 'АСТ', year: 1860, pages: 128, genre: 'Повесть' },
-  { name: 'Ася', publisher: 'Эксмо', year: 1858, pages: 96, genre: 'Повесть' },
-  { name: 'Вешние воды', publisher: 'АСТ', year: 1872, pages: 192, genre: 'Повесть' },
-  { name: 'Рудин', publisher: 'Художественная литература', year: 1856, pages: 224, genre: 'Роман' },
-  { name: 'Дядя Ваня', publisher: 'Искусство', year: 1897, pages: 128, genre: 'Пьеса' },
-  { name: 'Вишневый сад', publisher: 'Искусство', year: 1904, pages: 96, genre: 'Комедия' },
-  { name: 'Три сестры', publisher: 'Искусство', year: 1901, pages: 144, genre: 'Драма' },
-  { name: 'Чайка', publisher: 'Искусство', year: 1896, pages: 112, genre: 'Комедия' },
-  { name: 'Иванов', publisher: 'Искусство', year: 1887, pages: 128, genre: 'Пьеса' },
-  { name: 'Палата №6', publisher: 'АСТ', year: 1892, pages: 96, genre: 'Повесть' },
-  { name: 'Белые ночи', publisher: 'Эксмо', year: 1848, pages: 64, genre: 'Повесть' },
-  { name: 'Униженные и оскорбленные', publisher: 'АСТ', year: 1861, pages: 448, genre: 'Роман' },
-  { name: 'Игрок', publisher: 'Эксмо', year: 1866, pages: 192, genre: 'Роман' },
-  { name: 'Подросток', publisher: 'АСТ', year: 1875, pages: 640, genre: 'Роман' },
-  { name: 'Записки из подполья', publisher: 'Эксмо', year: 1864, pages: 128, genre: 'Повесть' },
-  { name: 'Двойник', publisher: 'АСТ', year: 1846, pages: 192, genre: 'Повесть' },
-  {
-    name: 'Бедные люди',
-    publisher: 'Художественная литература',
-    year: 1846,
-    pages: 128,
-    genre: 'Роман в письмах',
-  },
-  { name: 'Хозяйка', publisher: 'Эксмо', year: 1847, pages: 96, genre: 'Повесть' },
-  { name: 'Неточка Незванова', publisher: 'АСТ', year: 1849, pages: 256, genre: 'Роман' },
-  {
-    name: 'Село Степанчиково',
-    publisher: 'Художественная литература',
-    year: 1859,
-    pages: 224,
-    genre: 'Повесть',
-  },
-  {
-    name: 'Записки из мертвого дома',
-    publisher: 'Эксмо',
-    year: 1862,
-    pages: 352,
-    genre: 'Повесть',
-  },
-  {
-    name: 'Зимние заметки о летних впечатлениях',
-    publisher: 'АСТ',
-    year: 1863,
-    pages: 128,
-    genre: 'Очерки',
-  },
-  { name: 'Крокодил', publisher: 'Эксмо', year: 1865, pages: 64, genre: 'Рассказ' },
-  { name: 'Скверный анекдот', publisher: 'АСТ', year: 1862, pages: 48, genre: 'Рассказ' },
-  { name: 'Вечный муж', publisher: 'Эксмо', year: 1870, pages: 128, genre: 'Повесть' },
-  { name: 'Бесы', publisher: 'АСТ', year: 1872, pages: 768, genre: 'Роман' },
-  {
-    name: 'Дневник писателя',
-    publisher: 'Художественная литература',
-    year: 1876,
-    pages: 896,
-    genre: 'Публицистика',
-  },
-  {
-    name: 'История одного города',
-    publisher: 'Советский писатель',
-    year: 1870,
-    pages: 256,
-    genre: 'Сатирическая хроника',
-  },
-  {
-    name: 'Господа Головлевы',
-    publisher: 'Художественная литература',
-    year: 1880,
-    pages: 352,
-    genre: 'Роман',
-  },
-  {
-    name: 'Пошехонская старина',
-    publisher: 'Советский писатель',
-    year: 1889,
-    pages: 480,
-    genre: 'Хроника',
-  },
-  {
-    name: 'Сказки для детей изрядного возраста',
-    publisher: 'Детская литература',
-    year: 1869,
-    pages: 192,
-    genre: 'Сказки',
-  },
-  {
-    name: 'Премудрый пискарь',
-    publisher: 'Детская литература',
-    year: 1883,
-    pages: 32,
-    genre: 'Сказка',
-  },
-  {
-    name: 'Медведь на воеводстве',
-    publisher: 'Детская литература',
-    year: 1884,
-    pages: 48,
-    genre: 'Сказка',
-  },
-  {
-    name: 'Дикий помещик',
-    publisher: 'Детская литература',
-    year: 1869,
-    pages: 24,
-    genre: 'Сказка',
-  },
-  {
-    name: 'Как один мужик двух генералов прокормил',
-    publisher: 'Детская литература',
-    year: 1869,
-    pages: 16,
-    genre: 'Сказка',
-  },
-  {
-    name: 'Мертвые души',
-    publisher: 'Художественная литература',
-    year: 1842,
-    pages: 352,
-    genre: 'Поэма',
-  },
-  { name: 'Ревизор', publisher: 'Искусство', year: 1836, pages: 128, genre: 'Комедия' },
-  { name: 'Женитьба', publisher: 'Искусство', year: 1842, pages: 96, genre: 'Комедия' },
-  { name: 'Шинель', publisher: 'АСТ', year: 1842, pages: 48, genre: 'Повесть' },
-  { name: 'Нос', publisher: 'Эксмо', year: 1836, pages: 32, genre: 'Повесть' },
-  { name: 'Портрет', publisher: 'АСТ', year: 1835, pages: 80, genre: 'Повесть' },
-  { name: 'Невский проспект', publisher: 'Эксмо', year: 1835, pages: 64, genre: 'Повесть' },
-  {
-    name: 'Тарас Бульба',
-    publisher: 'Детская литература',
-    year: 1835,
-    pages: 192,
-    genre: 'Повесть',
-  },
-  { name: 'Вий', publisher: 'АСТ', year: 1835, pages: 96, genre: 'Повесть' },
-  { name: 'Старосветские помещики', publisher: 'Эксмо', year: 1835, pages: 64, genre: 'Повесть' },
-  {
-    name: 'Повесть о том, как поссорился Иван Иванович с Иваном Никифоровичем',
-    publisher: 'АСТ',
-    year: 1834,
-    pages: 80,
-    genre: 'Повесть',
-  },
-  {
-    name: 'Заколдованное место',
-    publisher: 'Детская литература',
-    year: 1832,
-    pages: 32,
-    genre: 'Повесть',
-  },
-  {
-    name: 'Ночь перед Рождеством',
-    publisher: 'Детская литература',
-    year: 1832,
-    pages: 48,
-    genre: 'Повесть',
-  },
-  {
-    name: 'Майская ночь',
-    publisher: 'Детская литература',
-    year: 1831,
-    pages: 40,
-    genre: 'Повесть',
-  },
-  {
-    name: 'Сорочинская ярмарка',
-    publisher: 'Детская литература',
-    year: 1831,
-    pages: 56,
-    genre: 'Повесть',
-  },
-  {
-    name: 'Капитанская дочка',
-    publisher: 'Детская литература',
-    year: 1836,
-    pages: 192,
-    genre: 'Повесть',
-  },
-  { name: 'Дубровский', publisher: 'АСТ', year: 1833, pages: 160, genre: 'Роман' },
-  { name: 'Повести Белкина', publisher: 'Эксмо', year: 1831, pages: 128, genre: 'Повести' },
-  { name: 'Пиковая дама', publisher: 'АСТ', year: 1834, pages: 64, genre: 'Повесть' },
-  {
-    name: 'Медный всадник',
-    publisher: 'Детская литература',
-    year: 1833,
-    pages: 48,
-    genre: 'Поэма',
-  },
-  { name: 'Полтава', publisher: 'Эксмо', year: 1829, pages: 80, genre: 'Поэма' },
-  { name: 'Цыганы', publisher: 'АСТ', year: 1827, pages: 64, genre: 'Поэма' },
-  {
-    name: 'Кавказский пленник',
-    publisher: 'Детская литература',
-    year: 1822,
-    pages: 48,
-    genre: 'Поэма',
-  },
-  {
-    name: 'Руслан и Людмила',
-    publisher: 'Детская литература',
-    year: 1820,
-    pages: 192,
-    genre: 'Поэма',
-  },
-  { name: 'Борис Годунов', publisher: 'Искусство', year: 1831, pages: 160, genre: 'Трагедия' },
-  { name: 'Маленькие трагедии', publisher: 'Эксмо', year: 1830, pages: 128, genre: 'Трагедии' },
-  {
-    name: 'Сказка о рыбаке и рыбке',
-    publisher: 'Детская литература',
-    year: 1833,
-    pages: 24,
-    genre: 'Сказка',
-  },
-  {
-    name: 'Сказка о царе Салтане',
-    publisher: 'Детская литература',
-    year: 1831,
-    pages: 64,
-    genre: 'Сказка',
-  },
-  {
-    name: 'Сказка о мертвой царевне',
-    publisher: 'Детская литература',
-    year: 1833,
-    pages: 48,
-    genre: 'Сказка',
-  },
-  {
-    name: 'Сказка о золотом петушке',
-    publisher: 'Детская литература',
-    year: 1834,
-    pages: 32,
-    genre: 'Сказка',
-  },
-  { name: 'Демон', publisher: 'Эксмо', year: 1841, pages: 96, genre: 'Поэма' },
-  { name: 'Мцыри', publisher: 'АСТ', year: 1840, pages: 64, genre: 'Поэма' },
-  {
-    name: 'Песня про царя Ивана Васильевича',
-    publisher: 'Детская литература',
-    year: 1838,
-    pages: 48,
-    genre: 'Поэма',
-  },
-  {
-    name: 'Бородино',
-    publisher: 'Детская литература',
-    year: 1837,
-    pages: 16,
-    genre: 'Стихотворение',
-  },
-  { name: 'Парус', publisher: 'Эксмо', year: 1832, pages: 8, genre: 'Стихотворение' },
-  { name: 'Смерть поэта', publisher: 'АСТ', year: 1837, pages: 12, genre: 'Стихотворение' },
-  { name: 'Поэт', publisher: 'Эксмо', year: 1838, pages: 8, genre: 'Стихотворение' },
-  { name: 'Пророк', publisher: 'АСТ', year: 1841, pages: 8, genre: 'Стихотворение' },
-];
-
-// Подготовленные данные для выдач
-const extraditionsData = [
-  { extraditionDate: '2024-01-15', refundDate: '2024-02-01', readerId: 0, bookIds: [0, 1] },
-  { extraditionDate: '2024-01-20', refundDate: '2024-02-15', readerId: 1, bookIds: [2] },
-  { extraditionDate: '2024-02-01', refundDate: null, readerId: 2, bookIds: [3, 4, 5] },
-  { extraditionDate: '2024-02-10', refundDate: '2024-03-05', readerId: 3, bookIds: [6, 7] },
-  { extraditionDate: '2024-02-15', refundDate: '2024-03-10', readerId: 4, bookIds: [8] },
-  { extraditionDate: '2024-03-01', refundDate: null, readerId: 5, bookIds: [9, 10] },
-  { extraditionDate: '2024-03-05', refundDate: '2024-03-25', readerId: 6, bookIds: [11, 12, 13] },
-  { extraditionDate: '2024-03-10', refundDate: '2024-04-02', readerId: 7, bookIds: [14] },
-  { extraditionDate: '2024-03-15', refundDate: null, readerId: 8, bookIds: [15, 16] },
-  { extraditionDate: '2024-03-20', refundDate: '2024-04-10', readerId: 9, bookIds: [17, 18, 19] },
-  { extraditionDate: '2024-04-01', refundDate: '2024-04-20', readerId: 10, bookIds: [20] },
-  { extraditionDate: '2024-04-05', refundDate: null, readerId: 11, bookIds: [21, 22] },
-  { extraditionDate: '2024-04-10', refundDate: '2024-05-01', readerId: 12, bookIds: [23, 24, 25] },
-  { extraditionDate: '2024-04-15', refundDate: '2024-05-05', readerId: 13, bookIds: [26] },
-  { extraditionDate: '2024-04-20', refundDate: null, readerId: 14, bookIds: [27, 28] },
-  { extraditionDate: '2024-05-01', refundDate: '2024-05-25', readerId: 15, bookIds: [29, 30, 31] },
-  { extraditionDate: '2024-05-05', refundDate: '2024-05-30', readerId: 16, bookIds: [32] },
-  { extraditionDate: '2024-05-10', refundDate: null, readerId: 17, bookIds: [33, 34] },
-  { extraditionDate: '2024-05-15', refundDate: '2024-06-01', readerId: 18, bookIds: [35, 36, 37] },
-  { extraditionDate: '2024-05-20', refundDate: '2024-06-10', readerId: 19, bookIds: [38] },
-  { extraditionDate: '2024-06-01', refundDate: null, readerId: 20, bookIds: [39, 40] },
-  { extraditionDate: '2024-06-05', refundDate: '2024-06-25', readerId: 21, bookIds: [41, 42, 43] },
-  { extraditionDate: '2023-12-01', refundDate: '2023-12-20', readerId: 22, bookIds: [44] },
-  { extraditionDate: '2023-12-15', refundDate: null, readerId: 23, bookIds: [45, 46] },
-  { extraditionDate: '2023-11-10', refundDate: '2023-12-05', readerId: 24, bookIds: [47, 48, 49] },
-  { extraditionDate: '2023-11-20', refundDate: '2023-12-15', readerId: 25, bookIds: [50] },
-  { extraditionDate: '2023-10-15', refundDate: null, readerId: 26, bookIds: [51, 52] },
-  { extraditionDate: '2023-10-25', refundDate: '2023-11-20', readerId: 27, bookIds: [53, 54, 55] },
-  { extraditionDate: '2023-09-10', refundDate: '2023-10-05', readerId: 28, bookIds: [56] },
-  { extraditionDate: '2023-09-20', refundDate: null, readerId: 29, bookIds: [57, 58] },
-  { extraditionDate: '2023-08-15', refundDate: '2023-09-10', readerId: 30, bookIds: [59, 60, 61] },
-  { extraditionDate: '2023-08-25', refundDate: '2023-09-20', readerId: 31, bookIds: [62] },
-  { extraditionDate: '2023-07-10', refundDate: null, readerId: 32, bookIds: [63, 64] },
-  { extraditionDate: '2023-07-20', refundDate: '2023-08-15', readerId: 33, bookIds: [65, 66, 67] },
-  { extraditionDate: '2023-06-15', refundDate: '2023-07-10', readerId: 34, bookIds: [68] },
-  { extraditionDate: '2023-06-25', refundDate: null, readerId: 35, bookIds: [69, 70] },
-  { extraditionDate: '2023-05-10', refundDate: '2023-06-05', readerId: 36, bookIds: [71, 72, 73] },
-  { extraditionDate: '2023-05-20', refundDate: '2023-06-15', readerId: 37, bookIds: [74] },
-  { extraditionDate: '2023-04-15', refundDate: null, readerId: 38, bookIds: [75, 76] },
-  { extraditionDate: '2023-04-25', refundDate: '2023-05-20', readerId: 39, bookIds: [77, 78, 79] },
-  { extraditionDate: '2023-03-10', refundDate: '2023-04-05', readerId: 40, bookIds: [80] },
-  { extraditionDate: '2023-03-20', refundDate: null, readerId: 41, bookIds: [81, 82] },
-  { extraditionDate: '2023-02-15', refundDate: '2023-03-15', readerId: 42, bookIds: [83, 84, 85] },
-  { extraditionDate: '2023-02-25', refundDate: '2023-03-25', readerId: 43, bookIds: [86] },
-  { extraditionDate: '2023-01-10', refundDate: null, readerId: 44, bookIds: [87, 88] },
-  { extraditionDate: '2023-01-20', refundDate: '2023-02-15', readerId: 45, bookIds: [89, 90, 91] },
-  { extraditionDate: '2022-12-15', refundDate: '2023-01-10', readerId: 46, bookIds: [92] },
-  { extraditionDate: '2022-12-25', refundDate: null, readerId: 47, bookIds: [93, 94] },
-  { extraditionDate: '2022-11-10', refundDate: '2022-12-05', readerId: 48, bookIds: [95, 96, 97] },
-  { extraditionDate: '2022-11-20', refundDate: '2022-12-15', readerId: 49, bookIds: [98] },
-];
-
-async function seed() {
-  try {
-    console.log('Начинаем заполнение базы данных...');
-
-    // Очищаем существующие данные
-    await prisma.debtM.deleteMany();
-    await prisma.bookM.deleteMany();
-    await prisma.extraditionM.deleteMany();
-    await prisma.readerM.deleteMany();
-
-    console.log('Создаем читателей...');
-
-    // Создаем читателей
-    const readers = [];
-    for (let i = 0; i < readersData.length; i++) {
-      const readerData = readersData[i];
-      const reader = await prisma.readerM.create({
-        data: {
-          lastName: readerData.lastName,
-          firstName: readerData.firstName,
-          addressStreet: readerData.street,
-          adressCity: readerData.city,
-          phoneNumber: readerData.phone,
-          registratedDate: readerData.date,
-          status: readerData.status,
-          category: readerData.category,
-        },
-      });
-      readers.push(reader);
-    }
-
-    console.log('Создаем книги...');
-
-    // Создаем книги
-    const books = [];
-    for (let i = 0; i < booksData.length; i++) {
-      const bookData = booksData[i];
-      const book = await prisma.bookM.create({
-        data: {
-          name: bookData.name,
-          trackingNumber: 1000 + i,
-          publicationCount: Math.floor(Math.random() * 5) + 1,
-          publisher: bookData.publisher,
-          publishedYear: bookData.year,
-          pagesCount: bookData.pages,
-          genere: bookData.genre,
-        },
-      });
-      books.push(book);
-    }
-
-    console.log('Создаем выдачи книг...');
-
-    // Создаем выдачи книг
-    const extraditions = [];
-    for (let i = 0; i < extraditionsData.length; i++) {
-      const extData = extraditionsData[i];
-      const extradition = await prisma.extraditionM.create({
-        data: {
-          extraditionDate: extData.extraditionDate,
-          refundDate: extData.refundDate,
-          readerId: readers[extData.readerId].id,
-        },
-      });
-      extraditions.push(extradition);
-
-      // Привязываем книги к выдаче
-      for (const bookIndex of extData.bookIds) {
-        if (bookIndex < books.length) {
-          await prisma.bookM.update({
-            where: { id: books[bookIndex].id },
-            data: { extraditionId: extradition.id },
-          });
-        }
-      }
-    }
-
-    console.log('Создаем задолженности...');
-
-    // Создаем задолженности для невозвращенных книг
-    const overdueExtraditions = extraditions.filter(
-      (_, index) => !extraditionsData[index].refundDate,
-    );
-
-    for (let i = 0; i < overdueExtraditions.length; i++) {
-      const extradition = overdueExtraditions[i];
-      const today = new Date();
-      const debtDate = new Date(today.getTime() - (i + 1) * 24 * 60 * 60 * 1000 * 5); // Разные даты задолженности
-
-      await prisma.debtM.create({
-        data: {
-          date: formatDate(debtDate),
-          extraditionId: extradition.id,
-        },
-      });
-    }
-
-    // Добавляем оставшиеся книги без выдач
-    const usedBookCount = extraditionsData.reduce((sum, ext) => sum + ext.bookIds.length, 0);
-    console.log(`Книг в выдачах: ${usedBookCount}, всего книг: ${books.length}`);
-
-    console.log('Заполнение базы данных завершено успешно!');
-    console.log(`Создано:
-    - Читателей: ${readers.length}
-    - Книг: ${books.length}
-    - Выдач: ${extraditions.length}
-    - Задолженностей: ${overdueExtraditions.length}
-    - Свободных книг: ${books.length - usedBookCount}
-    `);
-  } catch (error) {
-    console.error('Ошибка при заполнении базы данных:', error);
-    throw error;
-  } finally {
-    await prisma.$disconnect();
-  }
+function generatePhoneNumber() {
+  return `+7${getRandomInt(100, 999)}${getRandomInt(100, 999)}${getRandomInt(10, 99)}${getRandomInt(
+    10,
+    99,
+  )}`;
 }
 
-// Запускаем сид
-seed().catch(error => {
-  console.error(error);
-  process.exit(1);
-});
+async function main() {
+  console.log('Процесс удаления...');
+
+  // Очищаем существующие данные
+  await prisma.debtM.deleteMany();
+  await prisma.bookM.deleteMany();
+  await prisma.extraditionM.deleteMany();
+  await prisma.readerM.deleteMany();
+
+  console.log('Начало заполнения базы данных...');
+
+  // Создание читателей (60 записей)
+  console.log('Создание читателей...');
+  const readers = [];
+  for (let i = 0; i < 60; i++) {
+    const reader = await prisma.readerM.create({
+      data: {
+        lastName: getRandomElement(lastNames),
+        firstName: getRandomElement(firstNames),
+        addressStreet: `${getRandomElement(streets)}, д. ${getRandomInt(1, 100)}`,
+        adressCity: getRandomElement(cities),
+        phoneNumber: generatePhoneNumber(),
+        registratedDate: getRandomDate(new Date(2020, 0, 1), new Date(2024, 11, 31)),
+        status: getRandomElement(statuses),
+        category: getRandomElement(categories),
+      },
+    });
+    readers.push(reader);
+  }
+
+  // Создание книг (80 записей)
+  console.log('Создание книг...');
+  const books = [];
+  for (let i = 0; i < 80; i++) {
+    const book = await prisma.bookM.create({
+      data: {
+        name: getRandomElement(bookNames),
+        trackingNumber: 1000 + i,
+        publicationCount: getRandomInt(1000, 50000),
+        publisher: getRandomElement(publishers),
+        publishedYear: getRandomInt(1950, 2024),
+        pagesCount: getRandomInt(50, 800),
+        genere: getRandomElement(genres),
+      },
+    });
+    books.push(book);
+  }
+
+  // Создание выдач (50 записей)
+  console.log('Создание выдач...');
+  const extraditions = [];
+  const usedBooks = new Set();
+
+  for (let i = 0; i < 50; i++) {
+    // Выбираем книгу, которая еще не была выдана
+    let book;
+    do {
+      book = getRandomElement(books);
+    } while (usedBooks.has(book.id));
+
+    usedBooks.add(book.id);
+
+    const extraditionDate = getRandomDate(new Date(2023, 0, 1), new Date(2024, 11, 31));
+    const shouldHaveRefund = Math.random() > 0.3; // 70% книг возвращены
+
+    const extradition = await prisma.extraditionM.create({
+      data: {
+        extraditionDate: extraditionDate,
+        refundDate: shouldHaveRefund
+          ? getRandomDate(new Date(extraditionDate), new Date(2025, 5, 17))
+          : null,
+        bookId: book.id,
+        readerId: getRandomElement(readers).id,
+      },
+    });
+    extraditions.push(extradition);
+  }
+
+  // Создание долгов (15 записей для невозвращенных книг)
+  console.log('Создание долгов...');
+  const overdue = extraditions.filter(ext => !ext.refundDate);
+
+  for (let i = 0; i < Math.min(15, overdue.length); i++) {
+    const extradition = overdue[i];
+    const debtDate = getRandomDate(new Date(extradition.extraditionDate), new Date(2025, 5, 17));
+
+    await prisma.debtM.create({
+      data: {
+        date: debtDate,
+        extraditionId: extradition.id,
+      },
+    });
+  }
+
+  console.log('Заполнение базы данных завершено!');
+
+  // Выводим статистику
+  const readerCount = await prisma.readerM.count();
+  const bookCount = await prisma.bookM.count();
+  const extraditionCount = await prisma.extraditionM.count();
+  const debtCount = await prisma.debtM.count();
+
+  console.log(`Создано:`);
+  console.log(`- Читателей: ${readerCount}`);
+  console.log(`- Книг: ${bookCount}`);
+  console.log(`- Выдач: ${extraditionCount}`);
+  console.log(`- Долгов: ${debtCount}`);
+  console.log(
+    `Общее количество записей: ${readerCount + bookCount + extraditionCount + debtCount}`,
+  );
+}
+
+main()
+  .catch(e => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
