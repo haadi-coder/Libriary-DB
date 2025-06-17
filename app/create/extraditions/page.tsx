@@ -103,7 +103,7 @@ const CreateExtradition: FC = () => {
             <MultiSelectAsync
               placeholder="Выберите книги"
               className="w-full flex-7/12"
-              options={booksFilterOptions.nameOptions}
+              options={booksFilterOptions.nameOptions.reverse()}
               value={selectedBooks || null}
               onChange={payload => {
                 booksHandlers.setState(payload);
