@@ -22,7 +22,11 @@ const ExtraditionTable: FC<ExtraditionTableProps> = ({ data, withDelete, deleteR
       <Table.Td>{item.book.name}</Table.Td>
       <Table.Td>{item.extraditionDate}</Table.Td>
       <Table.Td>{item.refundDate ?? '---'}</Table.Td>
-      <Table.Td>{item.reader?.firstName}</Table.Td>
+      <Table.Td>
+        {`${item.reader?.lastName} 
+        ${item.reader?.firstName} 
+        ${item.reader?.patronomic}`}
+      </Table.Td>
       {withDelete && isEditable && (
         <Table.Td p={10}>
           <ActionIcon color="red" variant="subtle" onClick={() => deleteRows?.(item.id)}>
@@ -48,7 +52,7 @@ const ExtraditionTable: FC<ExtraditionTableProps> = ({ data, withDelete, deleteR
           <Table.Th className="text-[16px] text-white ">Выданные книги</Table.Th>
           <Table.Th className="text-[16px] text-white ">Дата выдачи</Table.Th>
           <Table.Th className="text-[16px] text-white ">Дата возврата</Table.Th>
-          <Table.Th className="text-[16px] text-white ">Имя читателя</Table.Th>
+          <Table.Th className="text-[16px] text-white ">ФИО читателя</Table.Th>
           <Table.Th px={10} className="w-[40px]">
             <ActionIcon onClick={() => setIsEditable()} variant="subtle" color="white">
               {!isEditable ? <IconEdit /> : <IconChecks />}
