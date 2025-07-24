@@ -12,7 +12,7 @@ import { BooksFormValues } from './types/BooksFormValues';
 import { useBooksFilterQuery } from '@/app/search/books/useBooksFilterQuery';
 import { SelectAsync } from '@/app/components/SelectAsync';
 import { CurrentDbSchema, useCurrentDbSchema } from '@/app/hooks/useCurrentDbSchema';
-import { notifications } from '@mantine/notifications';
+
 
 const createBook = async (data: BooksFormValues, schema: CurrentDbSchema) => {
   const response = await axios.post(`/api/books`, data, {
@@ -55,18 +55,10 @@ const CreateBook: FC = () => {
         setSelectedPublisher(null);
         form.reset();
 
-        notifications.show({
-          title: 'Успешно',
-          message: 'Добавление ученика прошло успешно',
-          color: 'green',
-        });
+        alert("Добавление выдачи произошло успешно");
       }
     } catch {
-      notifications.show({
-        title: 'Ошибка',
-        message: 'Что-тоо пошло не так. Заполните все необходимые поля',
-        color: 'red',
-      });
+      alert("Произошла ошибка при добавлении выдачи")
     }
   };
 
