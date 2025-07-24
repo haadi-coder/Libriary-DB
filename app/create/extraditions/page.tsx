@@ -13,7 +13,7 @@ import { SelectAsync } from '@/app/components/SelectAsync';
 import { DateInput } from '@mantine/dates';
 import { useReadersFilterQuery } from '@/app/search/readers/useReadersFilterQuery';
 import Link from 'next/link';
-import { notifications } from '@mantine/notifications';
+
 
 const createExtradition = async (data: ExtraditionsFormValues) => {
   const response = await axios.post(`/api/extraditions`, data, {
@@ -47,18 +47,10 @@ const CreateExtradition: FC = () => {
         setSelectedReader(null);
         form.reset();
 
-        notifications.show({
-          title: 'Успешно',
-          message: 'Добавление ученика прошло успешно',
-          color: 'green',
-        });
+        alert("Добавление выдачи произошло успешно");
       }
     } catch {
-      notifications.show({
-        title: 'Ошибка',
-        message: 'Что-тоо пошло не так. Заполните все необходимые поля',
-        color: 'red',
-      });
+      alert("Произошла ошибка при добавлении выдачи")
     }
   };
   const { filterOptions: booksFilterOptions } = useBooksFilterQuery();
