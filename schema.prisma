@@ -6,121 +6,111 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") 
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
   directUrl = env("POSTGRES_URL_NON_POOLING")
 }
+
 //------ Если возникнет вопрос почему, то могу объяснить лично ----------
-
-
 
 // Это уже описание самой БД. Какие таблицы есть с какими атрибутами итд
 
-model Extradition{
-  id                      String       @default(cuid())   @id
-  extraditionDate         String
-  refundDate              String?
+model Extradition {
+  id              String  @id @default(cuid())
+  extraditionDate String
+  refundDate      String?
 
-  bookId                  String?      @unique
-  book                    Book?        @relation(fields: [bookId], references: [id]) 
+  book Book? @relation(fields: [bookId], references: [id])
 
-  readerId                String?
-  reader                  Reader?      @relation(fields:[readerId], references:[id])
+  readerId String?
+  reader   Reader? @relation(fields: [readerId], references: [id])
 
-  debt                    Debt?
+  debt   Debt?
+  bookId String?
 }
 
-model Book{
-  id                      String       @default(cuid())   @id
-  name                    String
-  trackingNumber          Int
-  publicationCount        Int?
-  publisher               String?
-  publishedYear           Int?
-  pagesCount              Int?
-  genere                  String?
+model Book {
+  id               String  @id @default(cuid())
+  name             String
+  trackingNumber   Int
+  publicationCount Int?
+  publisher        String?
+  publishedYear    Int?
+  pagesCount       Int?
+  genere           String?
 
-  extradition             Extradition?
+  Extradition Extradition[]
 }
 
+model Debt {
+  id   String @id @default(cuid())
+  date String
 
-model Debt{
-  id                      String        @default(cuid())   @id
-  date                    String
-
-  extradition             Extradition? @relation(fields:[extraditionId], references:[id])       
-  extraditionId           String?      @unique
+  extradition   Extradition? @relation(fields: [extraditionId], references: [id])
+  extraditionId String?      @unique
 }
 
+model Reader {
+  id              String  @id @default(cuid())
+  lastName        String
+  firstName       String
+  patronomic      String?
+  addressStreet   String?
+  adressCity      String?
+  phoneNumber     String?
+  registratedDate String?
+  status          String
+  category        String?
 
-model Reader{
-  id                     String       @default(cuid())   @id
-  lastName               String
-  firstName              String
-  patronomic             String?
-  addressStreet          String?
-  adressCity             String?
-  phoneNumber            String?
-  registratedDate        String?
-  status                 String
-  category               String?
-
-  extraditions           Extradition[] 
+  extraditions Extradition[]
 }
 
+model ExtraditionM {
+  id              String  @id @default(cuid())
+  extraditionDate String
+  refundDate      String?
 
+  bookId String? @unique
+  book   BookM?  @relation(fields: [bookId], references: [id])
 
+  readerId String?
+  reader   ReaderM? @relation(fields: [readerId], references: [id])
 
-
-
-model ExtraditionM{
-  id                      String       @default(cuid())   @id
-  extraditionDate         String
-  refundDate              String?
-
-  bookId                  String?      @unique
-  book                    BookM?        @relation(fields: [bookId], references: [id])  
-
-  readerId                String?
-  reader                  ReaderM?      @relation(fields:[readerId], references:[id])
-
-  debt                    DebtM?
+  debt DebtM?
 }
 
-model BookM{
-  id                      String       @default(cuid())   @id
-  name                    String
-  trackingNumber          Int
-  publicationCount        Int?
-  publisher               String?
-  publishedYear           Int?
-  pagesCount              Int?
-  genere                  String?
+model BookM {
+  id               String  @id @default(cuid())
+  name             String
+  trackingNumber   Int
+  publicationCount Int?
+  publisher        String?
+  publishedYear    Int?
+  pagesCount       Int?
+  genere           String?
 
-  extradition             ExtraditionM?
+  extradition ExtraditionM?
 }
 
+model DebtM {
+  id   String @id @default(cuid())
+  date String
 
-model DebtM{
-  id                      String        @default(cuid())   @id
-  date                    String
-
-  extradition             ExtraditionM? @relation(fields:[extraditionId], references:[id])       
-  extraditionId           String?      @unique
+  extradition   ExtraditionM? @relation(fields: [extraditionId], references: [id])
+  extraditionId String?       @unique
 }
 
+model ReaderM {
+  id              String  @id @default(cuid())
+  lastName        String
+  firstName       String
+  patronomic      String?
+  addressStreet   String?
+  adressCity      String?
+  phoneNumber     String?
+  registratedDate String?
+  status          String
+  category        String?
 
-model ReaderM{
-  id                     String       @default(cuid())   @id
-  lastName               String
-  firstName              String
-  patronomic             String?
-  addressStreet          String?
-  adressCity             String?
-  phoneNumber            String?
-  registratedDate        String?
-  status                 String
-  category               String?
-
-  extraditions           ExtraditionM[] 
+  extraditions ExtraditionM[]
 }

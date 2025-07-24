@@ -49,7 +49,7 @@ export const POST = async (request: NextRequest) => {
       extraditionDate: requestData.extraditionDate,
       refundDate: requestData.refundDate,
       readerId: requestData.readerId,
-      book: { connect: requestData.books },
+      bookId: requestData.bookId,
     },
   });
 

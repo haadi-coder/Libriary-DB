@@ -3,7 +3,6 @@
 import { Button, Flex, Grid, Group } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
 import React, { FC, useState } from 'react';
-import { useListState } from '@mantine/hooks';
 import axios from 'axios';
 import { Handbook } from '@/app/types/Handbook';
 import { useForm } from '@mantine/form';
@@ -12,7 +11,6 @@ import { ExtraditionsFormValues } from './types/ExtraditionsFormValues';
 import { useBooksFilterQuery } from '@/app/search/books/useBooksFilterQuery';
 import { SelectAsync } from '@/app/components/SelectAsync';
 import { DateInput } from '@mantine/dates';
-import { MultiSelectAsync } from '@/app/components/MultiSelectAsync';
 import { useReadersFilterQuery } from '@/app/search/readers/useReadersFilterQuery';
 import Link from 'next/link';
 
@@ -28,14 +26,14 @@ const createExtradition = async (data: ExtraditionsFormValues) => {
 
 const CreateExtradition: FC = () => {
   const [selectedReader, setSelectedReader] = useState<Handbook | null>();
-  const [selectedBooks, booksHandlers] = useListState<Handbook>([]);
+  const [selectedBook, setSelectedBook] = useState<Handbook | null>(null);
 
   const form = useForm<ExtraditionsFormValues>({
     mode: 'controlled',
     initialValues: {
       extraditionDate: '',
       refundDate: '',
-      books: [],
+      bookId: '',
       readerId: '',
     },
     validate: {},
@@ -55,7 +53,7 @@ const CreateExtradition: FC = () => {
       alert("Произошла ошибка при добавлении выдачи")
     }
   };
-  const { data: books, filterOptions: booksFilterOptions } = useBooksFilterQuery();
+  const { filterOptions: booksFilterOptions } = useBooksFilterQuery();
   const { filterOptions: readersFilterOptions } = useReadersFilterQuery();
   return (
     <form
@@ -92,7 +90,7 @@ const CreateExtradition: FC = () => {
         </Grid.Col>
         <Grid.Col span={12}>
           <div className="mt-5 flex items-center gap-3">
-            <MultiSelectAsync
+            {/* <MultiSelectAsync
               placeholder="Выберите книги"
               className="w-full flex-7/12"
               options={booksFilterOptions.nameOptions.reverse()}
@@ -104,6 +102,16 @@ const CreateExtradition: FC = () => {
                   .map(item => ({ id: item.id }));
 
                 form.setFieldValue('books', result || []);
+              }}
+            /> */}
+            <SelectAsync
+              placeholder="Выберите книги"
+              className="w-full flex-7/12"
+              options={booksFilterOptions.nameOptions.reverse()}
+              value={selectedBook}
+              onChange={payload => {
+                setSelectedBook(payload);
+                form.setFieldValue('bookId', payload?.value || '');
               }}
             />
             <Button color="black" component={Link} href="/create/books">
