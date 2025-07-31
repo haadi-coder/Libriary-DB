@@ -19,7 +19,7 @@ const ExtraditionTable: FC<ExtraditionTableProps> = ({ data, withDelete, deleteR
 
   const rows = currentItems.map(item => (
     <Table.Tr key={item.id}>
-      <Table.Td>{item.book.name}</Table.Td>
+      <Table.Td>{item?.book?.name ?? '---'}</Table.Td>
       <Table.Td>{item.extraditionDate}</Table.Td>
       <Table.Td>{item.refundDate ?? '---'}</Table.Td>
 

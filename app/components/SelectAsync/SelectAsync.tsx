@@ -90,7 +90,7 @@ export const SelectAsync: FC<SelectAsyncProps> = ({
                 <Combobox.Option
                   classNames={{ option: classes.selectOption }}
                   value={option.label}
-                  key={option.label}
+                  key={option.label || option.value}
                 >
                   <div
                     style={{

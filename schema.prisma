@@ -39,7 +39,7 @@ model Book {
   pagesCount       Int?
   genere           String?
 
-  Extradition Extradition[]
+  extradition Extradition[]
 }
 
 model Debt {
@@ -70,13 +70,13 @@ model ExtraditionM {
   extraditionDate String
   refundDate      String?
 
-  bookId String? @unique
-  book   BookM?  @relation(fields: [bookId], references: [id])
+  book BookM? @relation(fields: [bookId], references: [id])
 
   readerId String?
   reader   ReaderM? @relation(fields: [readerId], references: [id])
 
-  debt DebtM?
+  debt   DebtM?
+  bookId String?
 }
 
 model BookM {
@@ -89,8 +89,9 @@ model BookM {
   pagesCount       Int?
   genere           String?
 
-  extradition ExtraditionM?
+  extradition ExtraditionM[]
 }
+
 
 model DebtM {
   id   String @id @default(cuid())

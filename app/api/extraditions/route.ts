@@ -1,6 +1,8 @@
 import prisma from '@/lib/prisma';
 import { Prisma } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
+import { postMysqlRouteConfig } from './config/post/mysql-route-config';
+import { postPostgresqlRouteConfig } from './config/post/postgresql-route-config';
 
 export const GET = async (request: NextRequest) => {
   const searchParams = request.nextUrl.searchParams;
@@ -26,6 +28,9 @@ export const GET = async (request: NextRequest) => {
   }
 
   const extraditions = await prisma.extradition.findMany({
+    orderBy: {
+      id: 'desc',
+    },
     where,
     select: {
       id: true,
@@ -43,17 +48,28 @@ export const GET = async (request: NextRequest) => {
 
 export const POST = async (request: NextRequest) => {
   const requestData = await request.json();
+  const searchParams = request.nextUrl.searchParams;
+  const schema = searchParams.get('schema');
 
-  const newExtradition = await prisma.extradition.create({
-    data: {
+  if (schema === 'mysql') {
+    const newBook = await postMysqlRouteConfig({
       extraditionDate: requestData.extraditionDate,
       refundDate: requestData.refundDate,
       readerId: requestData.readerId,
       bookId: requestData.bookId,
-    },
-  });
+    });
+    return NextResponse.json(newBook, { status: 200 });
+  }
 
-  return NextResponse.json(newExtradition, { status: 200 });
+  if (schema === 'postgresql') {
+    const newBook = await postPostgresqlRouteConfig({
+      extraditionDate: requestData.extraditionDate,
+      refundDate: requestData.refundDate,
+      readerId: requestData.readerId,
+      bookId: requestData.bookId,
+    });
+    return NextResponse.json(newBook, { status: 200 });
+  }
 };
 
 export const DELETE = async (request: NextRequest) => {

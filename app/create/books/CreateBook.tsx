@@ -12,7 +12,7 @@ import { BooksFormValues } from './types/BooksFormValues';
 import { useBooksFilterQuery } from '@/app/search/books/useBooksFilterQuery';
 import { SelectAsync } from '@/app/components/SelectAsync';
 import { CurrentDbSchema, useCurrentDbSchema } from '@/app/hooks/useCurrentDbSchema';
-
+import { useQueryClient } from '@tanstack/react-query';
 
 const createBook = async (data: BooksFormValues, schema: CurrentDbSchema) => {
   const response = await axios.post(`/api/books`, data, {
@@ -24,13 +24,15 @@ const createBook = async (data: BooksFormValues, schema: CurrentDbSchema) => {
   return { status: response.status, data: response.data };
 };
 
-const CreateBook: FC = () => {
+export const CreateBook: FC = () => {
   const { currentDbSchema } = useCurrentDbSchema();
   const [selectedGenere, setSelectedGenere] = useState<Handbook | null>();
   const [selectedPublisher, setSelectedPublisher] = useState<Handbook | null>();
   const [isPublisherEditable, setIsPublisherEditable] = useToggle();
   const [isGenereEditable, setIsGenereEditable] = useToggle();
   const { filterOptions: booksFilterOptions } = useBooksFilterQuery();
+
+  const queryClient = useQueryClient();
 
   const form = useForm<BooksFormValues>({
     mode: 'controlled',
@@ -51,20 +53,21 @@ const CreateBook: FC = () => {
       const { status } = await createBook(formValues, currentDbSchema);
 
       if (status === 201 || status || 200) {
+        queryClient.invalidateQueries({ queryKey: ['books'] });
         setSelectedGenere(null);
         setSelectedPublisher(null);
         form.reset();
 
-        alert("Добавление выдачи произошло успешно");
+        alert('Добавление выдачи произошло успешно');
       }
     } catch {
-      alert("Произошла ошибка при добавлении выдачи")
+      alert('Произошла ошибка при добавлении выдачи');
     }
   };
 
   return (
     <form
-      onSubmit={form.onSubmit(values => handleSubmit(values))}
+      // onSubmit={form.onSubmit(values => handleSubmit(values))}
       className="h-[64vh] mt-10 mx-100 p-10   bg-white rounded-lg"
     >
       <h1 className="text-2xl font-bold mb-4"> Добавление книги</h1>
@@ -168,7 +171,7 @@ const CreateBook: FC = () => {
 
       <Flex justify="end">
         <Group className="mt-8">
-          <Button variant="filled" color="black" disabled={!form.isValid()} type="submit">
+          <Button variant="filled" color="black" disabled={!form.isValid()} onClick={() => handleSubmit(form.values)}>
             Добавить <IconPlus size={16} className="ml-3" />
           </Button>
         </Group>
@@ -176,5 +179,3 @@ const CreateBook: FC = () => {
     </form>
   );
 };
-
-export default CreateBook;

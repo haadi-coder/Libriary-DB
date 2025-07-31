@@ -7,7 +7,7 @@ export function usePagination<T>(data: T[], itemsPerPageCount: number = 6) {
 
   const startIndex = (page - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentItems = data?.slice(startIndex, endIndex);
+  const currentItems = data.slice(startIndex, endIndex);
   const total = Math.ceil(data?.length / itemsPerPage);
   return {
     currentItems,

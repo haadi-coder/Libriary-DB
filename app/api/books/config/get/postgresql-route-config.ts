@@ -20,6 +20,9 @@ export const getPostgresqlRouteConfig = async ({
 
   const books = await prisma.book.findMany({
     where,
+    orderBy: {
+      id: 'desc',
+    },
     select: {
       id: true,
       name: true,

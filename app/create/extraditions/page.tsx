@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Flex, Grid, Group } from '@mantine/core';
+import { Button, Flex, Grid, Group, Modal, Title } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
 import React, { FC, useState } from 'react';
 import axios from 'axios';
@@ -12,21 +12,25 @@ import { useBooksFilterQuery } from '@/app/search/books/useBooksFilterQuery';
 import { SelectAsync } from '@/app/components/SelectAsync';
 import { DateInput } from '@mantine/dates';
 import { useReadersFilterQuery } from '@/app/search/readers/useReadersFilterQuery';
-import Link from 'next/link';
+import { CreateBook } from '../books/CreateBook';
+import { useToggle } from '@mantine/hooks';
+import { CurrentDbSchema, useCurrentDbSchema } from '@/app/hooks/useCurrentDbSchema';
 
-
-const createExtradition = async (data: ExtraditionsFormValues) => {
+const createExtradition = async (data: ExtraditionsFormValues, schema: CurrentDbSchema) => {
   const response = await axios.post(`/api/extraditions`, data, {
     headers: {
       'Content-Type': 'application/json',
     },
+    params: { schema },
   });
   return { status: response.status, data: response.data };
 };
 
 const CreateExtradition: FC = () => {
+  const { currentDbSchema } = useCurrentDbSchema();
   const [selectedReader, setSelectedReader] = useState<Handbook | null>();
   const [selectedBook, setSelectedBook] = useState<Handbook | null>(null);
+  const [opened, toggle] = useToggle();
 
   const form = useForm<ExtraditionsFormValues>({
     mode: 'controlled',
@@ -41,16 +45,17 @@ const CreateExtradition: FC = () => {
 
   const handleSubmit = async (formValues: ExtraditionsFormValues) => {
     try {
-      const { status } = await createExtradition(formValues);
+      const { status } = await createExtradition(formValues, currentDbSchema);
 
       if (status === 201 || status === 200) {
         setSelectedReader(null);
+        setSelectedBook(null);
         form.reset();
 
-        alert("Добавление выдачи произошло успешно");
+        alert('Добавление выдачи произошло успешно');
       }
     } catch {
-      alert("Произошла ошибка при добавлении выдачи")
+      alert('Произошла ошибка при добавлении выдачи');
     }
   };
   const { filterOptions: booksFilterOptions } = useBooksFilterQuery();
@@ -64,12 +69,14 @@ const CreateExtradition: FC = () => {
       <Grid>
         <Grid.Col span={12}>
           <DateInput
+            maxDate={form.values.refundDate}
             className="w-full mt-5"
             label="Дата выдачи"
             placeholder="Введите дату выдачи..."
             {...form.getInputProps('extraditionDate')}
           />
           <DateInput
+            minDate={form.values.extraditionDate}
             className="w-full mt-5"
             label="Дата возврата"
             placeholder="Введите дату возврата..."
@@ -114,12 +121,19 @@ const CreateExtradition: FC = () => {
                 form.setFieldValue('bookId', payload?.value || '');
               }}
             />
-            <Button color="black" component={Link} href="/create/books">
+            <Button color="black" onClick={() => toggle(true)}>
               Добавить книгу
             </Button>
           </div>
         </Grid.Col>
       </Grid>
+
+      <Modal fullScreen opened={opened} onClose={() => toggle(false)} withCloseButton={false}>
+        <Title onClick={() => toggle(false)} size="h3" className="w-full text-end cursor-pointer">
+          Назад
+        </Title>
+        <CreateBook />
+      </Modal>
 
       <Flex justify="end">
         <Group className="mt-8">

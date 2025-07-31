@@ -13,7 +13,7 @@ export const GET = async (request: NextRequest) => {
   const publisher = searchParams.get('p');
   const publishedYear = searchParams.get('py');
   const genere = searchParams.get('g');
-  const name = searchParams.get('n')
+  const name = searchParams.get('n');
 
   const where: Prisma.BookWhereInput = {};
 

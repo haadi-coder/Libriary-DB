@@ -1,9 +1,12 @@
 import prisma from '@/lib/prisma';
 import { Prisma } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
+import { getPostgresqlRouteConfig } from './config/get/postgresql-route-config';
+import { getMysqlRouteConfig } from './config/get/mysql-route-config';
 
 export const GET = async (request: NextRequest) => {
   const searchParams = request.nextUrl.searchParams;
+  const schema = searchParams.get('schema') || 'postgresql';
 
   const firstName = searchParams.get('fn');
   const addressCity = searchParams.get('c');
@@ -19,24 +22,29 @@ export const GET = async (request: NextRequest) => {
   if (status) where.status = status;
   if (category) where.category = category;
 
-  const readers = await prisma.reader.findMany({
-    where,
-    select: {
-      id: true,
-      patronomic: true,
-      firstName: true,
-      lastName: true,
-      addressStreet: true,
-      adressCity: true,
-      category: true,
-      phoneNumber: true,
-      registratedDate: true,
-      status: true,
-      extraditions: true,
-    },
-  });
+  if (schema === 'postgresql') {
+    const readers = await getPostgresqlRouteConfig({
+      addressCity,
+      category,
+      firstName,
+      registratedDate,
+      status,
+    });
 
-  return NextResponse.json(readers, { status: 200 });
+    return NextResponse.json(readers, { status: 200 });
+  }
+
+  if (schema === 'mysql') {
+    const readersM = await getMysqlRouteConfig({
+      addressCity,
+      category,
+      firstName,
+      registratedDate,
+      status,
+    });
+
+    return NextResponse.json(readersM, { status: 200 });
+  }
 };
 
 export const POST = async (request: NextRequest) => {

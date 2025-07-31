@@ -20,6 +20,9 @@ export const getMysqlRouteConfig = async ({
 
   const booksM = await prisma.bookM.findMany({
     where,
+    orderBy: {
+      id: 'desc',
+    },
     select: {
       id: true,
       name: true,
