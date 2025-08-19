@@ -69,14 +69,22 @@ const CreateExtradition: FC = () => {
       <Grid>
         <Grid.Col span={12}>
           <DateInput
-            maxDate={form.values.refundDate}
+            maxDate={
+              form.values.refundDate
+              ? new Date(new Date(form.values.refundDate).getTime() - 86400000)
+              : null
+            }
             className="w-full mt-5"
             label="Дата выдачи"
             placeholder="Введите дату выдачи..."
             {...form.getInputProps('extraditionDate')}
           />
           <DateInput
-            minDate={form.values.extraditionDate}
+            minDate={
+              form.values.extraditionDate
+              ? new Date(new Date(form.values.extraditionDate).getTime() + 86400000)
+              : null
+            }
             className="w-full mt-5"
             label="Дата возврата"
             placeholder="Введите дату возврата..."
