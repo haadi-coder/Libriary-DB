@@ -114,7 +114,7 @@ const CreateExtradition: FC = () => {
             <SelectAsync
               placeholder="Выберите книги"
               className="w-full flex-7/12"
-              options={booksFilterOptions.nameOptions.reverse()}
+             options={booksFilterOptions.nameOptions.sort((a, b) => a.label.localeCompare(b.label, 'ru'))}
               value={selectedBook}
               onChange={payload => {
                 setSelectedBook(payload);
