@@ -70,9 +70,8 @@ const CreateExtradition: FC = () => {
         <Grid.Col span={12}>
           <DateInput
             maxDate={
-              form.values.refundDate
-              ? new Date(new Date(form.values.refundDate).getTime() - 86400000)
-              : null
+              form.values.refundDate &&
+              new Date(new Date(form.values.refundDate).getTime() - 86400000)
             }
             className="w-full mt-5"
             label="Дата выдачи"
@@ -81,9 +80,8 @@ const CreateExtradition: FC = () => {
           />
           <DateInput
             minDate={
-              form.values.extraditionDate
-              ? new Date(new Date(form.values.extraditionDate).getTime() + 86400000)
-              : null
+              form.values.extraditionDate &&
+              new Date(new Date(form.values.extraditionDate).getTime() + 86400000)
             }
             className="w-full mt-5"
             label="Дата возврата"
