@@ -5,7 +5,7 @@ import { RootProvider } from './RootProvider';
 import Header from './components/Header/Header';
 import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
-import '@mantine/notifications/styles.css';
+
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
