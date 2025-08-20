@@ -1,49 +1,37 @@
 import prisma from '@/lib/prisma';
-import { Prisma } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
 import { postMysqlRouteConfig } from './config/post/mysql-route-config';
 import { postPostgresqlRouteConfig } from './config/post/postgresql-route-config';
+import { getPostgresqlRouteConfig } from './config/get/postgresql-route-config';
+import { getMysqlRouteConfig } from './config/get/mysql-route-config';
 
 export const GET = async (request: NextRequest) => {
   const searchParams = request.nextUrl.searchParams;
+  const schema = searchParams.get('schema') || 'postgresql';
 
   const refundDate = searchParams.get('rf');
   const bookId = searchParams.get('b');
   const readerId = searchParams.get('r');
 
-  const where: Prisma.ExtraditionWhereInput = {};
+  if (schema === 'postgresql') {
+    const extraditions = await getPostgresqlRouteConfig({
+      bookId,
+      readerId,
+      refundDate,
+    });
 
-  if (refundDate) {
-    where.refundDate = refundDate;
+    return NextResponse.json(extraditions, { status: 200 });
   }
 
-  if (bookId) {
-    where.book = {
-      id: bookId,
-    };
+  if (schema === 'mysql') {
+    const extraditionsM = await getMysqlRouteConfig({
+      bookId,
+      readerId,
+      refundDate,
+    });
+
+    return NextResponse.json(extraditionsM, { status: 200 });
   }
-
-  if (readerId) {
-    where.readerId = readerId;
-  }
-
-  const extraditions = await prisma.extradition.findMany({
-    orderBy: {
-      id: 'desc',
-    },
-    where,
-    select: {
-      id: true,
-      extraditionDate: true,
-      refundDate: true,
-      debt: true,
-      book: true,
-      reader: true,
-      readerId: true,
-    },
-  });
-
-  return NextResponse.json(extraditions, { status: 200 });
 };
 
 export const POST = async (request: NextRequest) => {

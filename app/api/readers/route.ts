@@ -1,5 +1,4 @@
 import prisma from '@/lib/prisma';
-import { Prisma } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
 import { getPostgresqlRouteConfig } from './config/get/postgresql-route-config';
 import { getMysqlRouteConfig } from './config/get/mysql-route-config';
@@ -13,14 +12,6 @@ export const GET = async (request: NextRequest) => {
   const registratedDate = searchParams.get('rd');
   const status = searchParams.get('s');
   const category = searchParams.get('cg');
-
-  const where: Prisma.ReaderWhereInput = {};
-
-  if (firstName) where.firstName = firstName;
-  if (addressCity) where.adressCity = addressCity;
-  if (registratedDate) where.registratedDate = registratedDate;
-  if (status) where.status = status;
-  if (category) where.category = category;
 
   if (schema === 'postgresql') {
     const readers = await getPostgresqlRouteConfig({
