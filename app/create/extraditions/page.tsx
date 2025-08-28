@@ -15,6 +15,7 @@ import { useReadersFilterQuery } from '@/app/search/readers/useReadersFilterQuer
 import { CreateBook } from '../books/CreateBook';
 import { useToggle } from '@mantine/hooks';
 import { CurrentDbSchema, useCurrentDbSchema } from '@/app/hooks/useCurrentDbSchema';
+import { CreateReader } from '../readers/page';
 
 const createExtradition = async (data: ExtraditionsFormValues, schema: CurrentDbSchema) => {
   const response = await axios.post(`/api/extraditions`, data, {
@@ -31,6 +32,7 @@ const CreateExtradition: FC = () => {
   const [selectedReader, setSelectedReader] = useState<Handbook | null>();
   const [selectedBook, setSelectedBook] = useState<Handbook | null>(null);
   const [opened, toggle] = useToggle();
+  const[openedreader, togglereader] = useToggle();
 
   const form = useForm<ExtraditionsFormValues>({
     mode: 'controlled',
@@ -88,6 +90,8 @@ const CreateExtradition: FC = () => {
             placeholder="Введите дату возврата..."
             {...form.getInputProps('refundDate')}
           />
+          </Grid.Col>
+          <Grid.Col span={12}>
           <div className="mt-5 flex items-center gap-3">
             <SelectAsync
               placeholder="Выберите читателя"
@@ -99,6 +103,9 @@ const CreateExtradition: FC = () => {
                 form.setFieldValue('readerId', payload?.value || '');
               }}
             />
+            <Button color="black" className="w-48" onClick={() => togglereader(true)}>
+              Добавить читателя
+            </Button>
           </div>
         </Grid.Col>
         <Grid.Col span={12}>
@@ -127,9 +134,12 @@ const CreateExtradition: FC = () => {
                 form.setFieldValue('bookId', payload?.value || '');
               }}
             />
-            <Button color="black" onClick={() => toggle(true)}>
+            <div className=" w-42">
+               <Button color="black" className="w-full" onClick={() => toggle(true)}>
               Добавить книгу
             </Button>
+            </div>
+           
           </div>
         </Grid.Col>
       </Grid>
@@ -140,7 +150,12 @@ const CreateExtradition: FC = () => {
         </Title>
         <CreateBook />
       </Modal>
-
+         <Modal fullScreen opened={openedreader} onClose={() => togglereader(false)} withCloseButton={false}>
+        <Title onClick={() => togglereader(false)} size="h3" className="w-full text-end cursor-pointer">
+          Назад
+        </Title>
+        <CreateReader/>
+      </Modal>       
       <Flex justify="end">
         <Group className="mt-8">
           <Button variant="filled" color="black" disabled={!form.isValid()} type="submit">

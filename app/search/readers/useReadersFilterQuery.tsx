@@ -31,9 +31,14 @@ export const useReadersFilterQuery = (searchParams?: ReadersFilterSearchParams) 
       }))
       .filter((item, index, arr) => index === arr.findIndex(s => s.label === item.label))
       .sort((a, b) => a.label.localeCompare(b.label)) ?? [];
-
+   const readerCategoryOptions: Handbook[] =
+  data
+    ?.map(reader => ({ value: reader.category, label: reader.category }))
+    .filter((item, index, arr) => index === arr.findIndex(s => s.value === item.value))
+    .sort((a, b) => a.label.localeCompare(b.label)) ?? [];
   const readersFilterOptions = {
     readerNameOptions,
+    readerCategoryOptions
   };
 
   return { data, filterOptions: readersFilterOptions, ...rest };
