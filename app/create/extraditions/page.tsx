@@ -1,12 +1,11 @@
 'use client';
 
-import { Button, Flex, Grid, Group, Modal, Title } from '@mantine/core';
-import { IconPlus } from '@tabler/icons-react';
+import { Button, Flex, Grid, Group, Modal, Text } from '@mantine/core';
+import { IconBookFilled, IconPlus } from '@tabler/icons-react';
 import React, { FC, useState } from 'react';
 import axios from 'axios';
 import { Handbook } from '@/app/types/Handbook';
 import { useForm } from '@mantine/form';
-
 import { ExtraditionsFormValues } from './types/ExtraditionsFormValues';
 import { useBooksFilterQuery } from '@/app/search/books/useBooksFilterQuery';
 import { SelectAsync } from '@/app/components/SelectAsync';
@@ -15,6 +14,8 @@ import { useReadersFilterQuery } from '@/app/search/readers/useReadersFilterQuer
 import { CreateBook } from '../books/CreateBook';
 import { useToggle } from '@mantine/hooks';
 import { CurrentDbSchema, useCurrentDbSchema } from '@/app/hooks/useCurrentDbSchema';
+import { CreateReader } from '../reader/CreateReader';
+import { NavButtons } from '@/app/components/Header/NavButtons';
 
 const createExtradition = async (data: ExtraditionsFormValues, schema: CurrentDbSchema) => {
   const response = await axios.post(`/api/extraditions`, data, {
@@ -30,7 +31,8 @@ const CreateExtradition: FC = () => {
   const { currentDbSchema } = useCurrentDbSchema();
   const [selectedReader, setSelectedReader] = useState<Handbook | null>();
   const [selectedBook, setSelectedBook] = useState<Handbook | null>(null);
-  const [opened, toggle] = useToggle();
+  const [bookCreateOpened, toggleBookCreate] = useToggle();
+  const [readerCreateOpened, toggleReaderCreate] = useToggle();
 
   const form = useForm<ExtraditionsFormValues>({
     mode: 'controlled',
@@ -69,10 +71,7 @@ const CreateExtradition: FC = () => {
       <Grid>
         <Grid.Col span={12}>
           <DateInput
-            maxDate={
-              form.values.refundDate &&
-              new Date(new Date(form.values.refundDate).getTime() - 86400000)
-            }
+            maxDate={new Date()}
             className="w-full mt-5"
             label="Дата выдачи"
             placeholder="Введите дату выдачи..."
@@ -99,6 +98,9 @@ const CreateExtradition: FC = () => {
                 form.setFieldValue('readerId', payload?.value || '');
               }}
             />
+            <Button color="black" onClick={() => toggleReaderCreate(true)}>
+              Добавить читателя
+            </Button>
           </div>
         </Grid.Col>
         <Grid.Col span={12}>
@@ -120,25 +122,58 @@ const CreateExtradition: FC = () => {
             <SelectAsync
               placeholder="Выберите книги"
               className="w-full flex-7/12"
-             options={booksFilterOptions.nameOptions.sort((a, b) => a.label.localeCompare(b.label, 'ru'))}
+              options={booksFilterOptions.nameOptions}
               value={selectedBook}
               onChange={payload => {
                 setSelectedBook(payload);
                 form.setFieldValue('bookId', payload?.value || '');
               }}
             />
-            <Button color="black" onClick={() => toggle(true)}>
+            <Button color="black" onClick={() => toggleBookCreate(true)}>
               Добавить книгу
             </Button>
           </div>
         </Grid.Col>
       </Grid>
 
-      <Modal fullScreen opened={opened} onClose={() => toggle(false)} withCloseButton={false}>
-        <Title onClick={() => toggle(false)} size="h3" className="w-full text-end cursor-pointer">
-          Назад
-        </Title>
+      <Modal
+        fullScreen
+        opened={bookCreateOpened}
+        onClose={() => toggleBookCreate(false)}
+        withCloseButton={false}
+      >
+        <header className="flex justify-between items-center pl-32 pr-10 py-4 bg-[#262628] sticky top-0 z-10">
+          <Group gap="14px" align="center">
+            <IconBookFilled color="white" size="2.5rem" />
+            <Text c="#ffffff" fw={700} fz="1.5rem">
+              Library DB
+            </Text>
+          </Group>
+
+          <NavButtons inModal onModalClose={() => toggleBookCreate(false)} />
+        </header>
+
         <CreateBook />
+      </Modal>
+
+      <Modal
+        fullScreen
+        opened={readerCreateOpened}
+        onClose={() => toggleReaderCreate(false)}
+        withCloseButton={false}
+      >
+        <header className="flex justify-between items-center pl-32 pr-10 py-4 bg-[#262628] sticky top-0 z-10">
+          <Group gap="14px" align="center">
+            <IconBookFilled color="white" size="2.5rem" />
+            <Text c="#ffffff" fw={700} fz="1.5rem">
+              Library DB
+            </Text>
+          </Group>
+
+          <NavButtons inModal onModalClose={() => toggleReaderCreate(false)} />
+        </header>
+
+        <CreateReader />
       </Modal>
 
       <Flex justify="end">

@@ -171,7 +171,12 @@ export const CreateBook: FC = () => {
 
       <Flex justify="end">
         <Group className="mt-8">
-          <Button variant="filled" color="black" disabled={!form.isValid()} onClick={() => handleSubmit(form.values)}>
+          <Button
+            variant="filled"
+            color="black"
+            disabled={!form.isValid()}
+            onClick={() => handleSubmit(form.values)}
+          >
             Добавить <IconPlus size={16} className="ml-3" />
           </Button>
         </Group>

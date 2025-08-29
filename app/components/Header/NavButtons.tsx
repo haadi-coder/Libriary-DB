@@ -1,10 +1,13 @@
 'use client';
-import { Button, Menu } from '@mantine/core';
+import { Button, Menu, UnstyledButton } from '@mantine/core';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FC } from 'react';
 
-export const NavButtons: FC = () => {
+export const NavButtons: FC<{ inModal?: boolean; onModalClose?: () => void }> = ({
+  inModal,
+  onModalClose,
+}) => {
   const currentPathname = usePathname();
 
   return (
@@ -32,7 +35,6 @@ export const NavButtons: FC = () => {
           <Menu.Item component={Link} href="/search/extradition">
             По одному атрибуту
           </Menu.Item>
-
         </Menu.Dropdown>
       </Menu>
 
@@ -46,9 +48,15 @@ export const NavButtons: FC = () => {
           </Button>
         </Menu.Target>
         <Menu.Dropdown>
-          <Menu.Item component={Link} href="/create/extraditions">
-            Добавить выдачу
-          </Menu.Item>
+          {inModal ? (
+            <Menu.Item>
+              <UnstyledButton onClick={ onModalClose}>Добавить выдачу</UnstyledButton>
+            </Menu.Item>
+          ) : (
+            <Menu.Item component={Link} href="/create/extraditions">
+              Добавить выдачу
+            </Menu.Item>
+          )}
         </Menu.Dropdown>
       </Menu>
     </div>

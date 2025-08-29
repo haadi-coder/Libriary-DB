@@ -2,6 +2,8 @@ import prisma from '@/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
 import { getPostgresqlRouteConfig } from './config/get/postgresql-route-config';
 import { getMysqlRouteConfig } from './config/get/mysql-route-config';
+import { postMysqlRouteConfig } from './config/post/mysql-route-config';
+import { postPostgresqlRouteConfig } from './config/post/postgresql-route-config';
 
 export const GET = async (request: NextRequest) => {
   const searchParams = request.nextUrl.searchParams;
@@ -39,22 +41,21 @@ export const GET = async (request: NextRequest) => {
 };
 
 export const POST = async (request: NextRequest) => {
+  const searchParams = request.nextUrl.searchParams;
+  const schema = searchParams.get('schema');
   const requestData = await request.json();
 
-  const newReader = await prisma.reader.create({
-    data: {
-      firstName: requestData.firstName,
-      lastName: requestData.lastName,
-      status: requestData.status,
-      addressStreet: requestData.addressStreet,
-      adressCity: requestData.addressCity,
-      category: requestData.category,
-      phoneNumber: requestData.phoneNumber,
-      registratedDate: requestData.registratedDate,
-    },
-  });
+  if (schema === 'postgresql') {
+    const newReader = postPostgresqlRouteConfig(requestData);
 
-  return NextResponse.json(newReader, { status: 200 });
+    return NextResponse.json(newReader, { status: 200 });
+  }
+
+  if (schema === 'mysql') {
+    const newReader = postMysqlRouteConfig(requestData);
+
+    return NextResponse.json(newReader, { status: 200 });
+  }
 };
 
 export const DELETE = async (request: NextRequest) => {
